@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <!-- CONFIGURAÇÕES DA PÁGINA -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+      name="description"
+      content="Conheça o NeuroComp, grupo de pesquisa em Neurociência Computacional afiliado ao NUTES/UEPB."
+    />
+
+    <title>NeuroComp</title>
+  </head>
+
+  <body>
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main>
+      <!-- APRESENTAÇÃO DO NEUROCOMP -->
+      <section id="inicio" aria-labelledby="titulo-inicio">
+        <h1 id="titulo-inicio">NeuroComp</h1>
+
+        <p>
+          Grupo de Pesquisa em Neurociência Computacional
+          afiliado ao NUTES | UEPB.
+        </p>
+
+        <a href="https://github.com/neurocomp-nutes">
+          Conheça nossos projetos no GitHub
+        </a>
+      </section>
+    </main>
+  </body>
+</html>
+
+
+<style>
+  /* <-------------------BASE DA PÁGINA-------------------> */
+
+  /* Inclui bordas e preenchimento no cálculo do tamanho dos elementos. */
+  :global(*) {
+    box-sizing: border-box;
+  }
+
+  /* Remove a margem padrão e define a aparência geral da página. */
+  :global(body) {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    color: #203549;
+    background-color: #f5f8fc;
+  }
+
+  /* <-------------------ÁREA PRINCIPAL-------------------> */
+
+  /* Limita a largura em telas grandes e mantém espaço nas laterais. */
+  main {
+    max-width: 960px;
+    margin-inline: auto;
+    padding: 64px 24px;
+  }
+
+  /* Destaca a apresentação com uma superfície branca e borda suave. */
+  section {
+    padding: 32px;
+    background-color: #ffffff;
+    border: 1px solid #d9e3ed;
+    border-radius: 16px;
+  }
+
+  /* <-------------------TEXTOS-------------------> */
+
+  h1 {
+    margin: 0 0 16px;
+    font-size: 48px;
+    line-height: 1.1;
+    color: #284e70;
+  }
+
+  p {
+    margin: 0 0 24px;
+    font-size: 18px;
+  }
+
+  /* <-------------------LINK E INTERAÇÃO-------------------> */
+
+  /* Mantém o sublinhado para que o link seja reconhecível. */
+  a {
+    color: #245a85;
+    font-weight: 700;
+    text-underline-offset: 4px;
+  }
+
+  /* Oferece uma resposta visual quando o mouse está sobre o link. */
+  a:hover {
+    color: #163b59;
+  }
+
+  /* Destaca o link quando ele recebe foco pela navegação com teclado. */
+  a:focus-visible {
+    outline: 3px solid #245a85;
+    outline-offset: 5px;
+    border-radius: 2px;
+  }
+
+  /* <-------------------TELAS PEQUENAS-------------------> */
+
+  /* Ajusta os espaços e o título quando a tela tem até 600px de largura. */
+  @media (max-width: 600px) {
+    main {
+      padding: 32px 16px;
+    }
+
+    section {
+      padding: 24px;
+    }
+
+    h1 {
+      font-size: 36px;
+    }
+  }
+</style>
