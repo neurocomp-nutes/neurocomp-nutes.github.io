@@ -1,0 +1,56 @@
+name: Publicar site do NeuroComp
+
+# <-------------------GATILHOS------------------->
+
+on:
+  # Executa quando enviamos commits para a branch principal.
+  push:
+    branches: [main]
+
+  # Permite iniciar a publicação manualmente pela aba Actions.
+  workflow_dispatch:
+
+# <-------------------PERMISSÕES------------------->
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Evita publicações simultâneas.
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+# <-------------------CONSTRUÇÃO DO SITE------------------->
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Obtém o código do repositório.
+      - name: Baixar código
+        uses: actions/checkout@v7
+
+      # Instala dependências, gera o site e armazena o resultado.
+      - name: Construir site com Astro
+        uses: withastro/action@v6
+        with:
+          node-version: 24
+
+  # <-------------------PUBLICAÇÃO------------------->
+
+  deploy:
+    # Só publica se a construção terminar com sucesso.
+    needs: build
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Publicar no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
