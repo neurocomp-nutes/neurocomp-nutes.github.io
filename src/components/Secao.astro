@@ -1,0 +1,18 @@
+---
+// <-------------------PARÂMETROS DO COMPONENTE------------------->
+// Props são as informações que a página passa ao componente.
+interface Props {
+  id: string;
+  titulo: string;
+  etiqueta?: string;
+}
+const { id, titulo, etiqueta } = Astro.props;
+const tituloId = `titulo-${id}`;
+---
+<!-- SEÇÃO REUTILIZÁVEL -->
+<section id={id} aria-labelledby={tituloId}>
+  {etiqueta && <p class="etiqueta">{etiqueta}</p>}
+  <h2 id={tituloId}>{titulo}</h2>
+  <!-- O slot mantém livre o conteúdo que aparece abaixo do título. -->
+  <slot />
+</section>

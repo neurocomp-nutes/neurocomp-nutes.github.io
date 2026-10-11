@@ -1,0 +1,116 @@
+---
+// <-------------------NAVEGAÇÃO------------------->
+
+// Cada endereço deve corresponder ao id de uma seção da página.
+const links = [
+  { href: '#sobre', texto: 'Sobre' },
+  { href: '#noticias', texto: 'Notícias' },
+  { href: '#pesquisa', texto: 'Pesquisa' },
+  { href: '#publicacoes', texto: 'Publicações' },
+  { href: '#equipe', texto: 'Equipe' },
+  { href: '#contato', texto: 'Contato' },
+];
+---
+
+<!-- CABEÇALHO E MARCA -->
+<header>
+  <div class="cabecalho-interno">
+    <a class="marca" href="#inicio" aria-label="NeuroComp - início">
+      <!-- O texto ao lado já identifica a marca, evitando leitura duplicada. -->
+      <img
+        src="/imgs/oficial_brain_no_background.png"
+        alt=""
+        width="64"
+        height="44"
+      />
+
+      <span>
+        NeuroComp
+        <small>NUTES | UEPB</small>
+      </span>
+    </a>
+
+    <!-- MENU DE NAVEGAÇÃO -->
+    <nav aria-label="Navegação principal">
+      <ul>
+        {
+          links.map((link) => (
+            <li>
+              <a href={link.href}>{link.texto}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  /* <-------------------MARCA E MENU-------------------> */
+
+  header {
+    background: white;
+    border-bottom: 1px solid var(--borda);
+  }
+
+  /* Centraliza o conteúdo e permite quebrar linhas quando faltar espaço. */
+  .cabecalho-interno {
+    max-width: 1160px;
+    margin-inline: auto;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .marca {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    font-size: 1.3rem;
+  }
+
+  .marca img {
+    width: 64px;
+  }
+
+  small {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+  }
+
+  /* Remove os marcadores da lista e distribui os links horizontalmente. */
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  nav a {
+    display: block;
+    padding: 10px 8px;
+    font-size: 0.95rem;
+    text-decoration: none;
+  }
+
+  nav a:hover {
+    text-decoration: underline;
+  }
+
+  /* <-------------------TELAS PEQUENAS-------------------> */
+
+  /* Mantém todos os links acessíveis no celular sem depender de JavaScript. */
+  @media (max-width: 700px) {
+    .cabecalho-interno {
+      gap: 12px;
+      padding-inline: 16px;
+    }
+  }
+</style>

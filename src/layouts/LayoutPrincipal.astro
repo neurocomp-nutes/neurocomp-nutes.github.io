@@ -1,0 +1,27 @@
+---
+// <-------------------ESTRUTURA COMPARTILHADA------------------->
+// Importar o CSS aqui aplica as regras de base a toda a página.
+import '../styles/global.css';
+import Cabecalho from '../components/Cabecalho.astro';
+import Rodape from '../components/Rodape.astro';
+---
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <!-- CONFIGURAÇÕES DA PÁGINA -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Conheça o NeuroComp, grupo de pesquisa em Neurociência Computacional afiliado ao NUTES/UEPB." />
+    <title>NeuroComp | NUTES/UEPB</title>
+  </head>
+  <body>
+    <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+    <Cabecalho />
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main id="conteudo" tabindex="-1">
+      <!-- O slot recebe as seções escritas no index.astro. -->
+      <slot />
+    </main>
+    <Rodape />
+  </body>
+</html>

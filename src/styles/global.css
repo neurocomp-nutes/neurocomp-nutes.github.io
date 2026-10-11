@@ -1,0 +1,120 @@
+
+  /* <-------------------BASE DA PÁGINA-------------------> */
+
+  /* Inclui bordas e preenchimento no cálculo do tamanho dos elementos. */
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Remove a margem padrão e define a aparência geral da página. */
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.6;
+    color: #203549;
+    background-color: #f5f8fc;
+  }
+
+  /* <-------------------ÁREA PRINCIPAL-------------------> */
+
+  /* Limita a largura em telas grandes e mantém espaço nas laterais. */
+  main {
+    max-width: 960px;
+    margin-inline: auto;
+    padding: 64px 24px;
+  }
+
+  /* Destaca a apresentação com uma superfície branca e borda suave. */
+  section {
+    padding: 32px;
+    background-color: #ffffff;
+    border: 1px solid #d9e3ed;
+    border-radius: 16px;
+  }
+
+  /* <-------------------TEXTOS-------------------> */
+
+  h1 {
+    margin: 0 0 16px;
+    font-size: 48px;
+    line-height: 1.1;
+    color: #284e70;
+  }
+
+  p {
+    margin: 0 0 24px;
+    font-size: 18px;
+  }
+
+  /* <-------------------LINK E INTERAÇÃO-------------------> */
+
+  /* Mantém o sublinhado para que o link seja reconhecível. */
+  a {
+    color: #245a85;
+    font-weight: 700;
+    text-underline-offset: 4px;
+  }
+
+  /* Oferece uma resposta visual quando o mouse está sobre o link. */
+  a:hover {
+    color: #163b59;
+  }
+
+  /* Destaca o link quando ele recebe foco pela navegação com teclado. */
+  a:focus-visible {
+    outline: 3px solid #245a85;
+    outline-offset: 5px;
+    border-radius: 2px;
+  }
+
+  /* <-------------------TELAS PEQUENAS-------------------> */
+
+  /* Ajusta os espaços e o título quando a tela tem até 600px de largura. */
+  @media (max-width: 600px) {
+    main {
+      padding: 32px 16px;
+    }
+
+    section {
+      padding: 24px;
+    }
+
+    h1 {
+      font-size: 36px;
+    }
+  }
+
+/* <-------------------IDENTIDADE E ACESSIBILIDADE-------------------> */
+/* Variáveis permitem ajustar a paleta em um único lugar. */
+:root {
+  --azul: #284e70;
+  --texto: #203549;
+  --borda: #d9e3ed;
+  --verde: #246759;
+}
+html { scroll-behavior: smooth; }
+img { max-width: 100%; height: auto; }
+section, footer { scroll-margin-top: 24px; }
+h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.2; margin: 0 0 16px; color: var(--azul); }
+h3 { margin-top: 0; }
+/* O link aparece ao receber foco e permite saltar a navegação. */
+.pular-conteudo { position: absolute; left: 16px; top: -100px; background: white; padding: 12px; z-index: 10; }
+.pular-conteudo:focus { top: 16px; }
+/* Respeita a preferência do visitante por menos movimento. */
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* <-------------------ESTRUTURA DAS SEÇÕES-------------------> */
+main { max-width: 1160px; display: grid; gap: 24px; padding-top: 32px; }
+section { padding: clamp(24px, 4vw, 48px); }
+section p { max-width: 68ch; }
+.etiqueta { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; color: var(--verde); }
+.pendente { border-left: 3px solid var(--borda); padding: 16px 20px; background: #f5f8fc; }
+.pendente p { margin-bottom: 0; font-size: 1rem; }
+.acoes { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+.botao { display: inline-block; padding: 12px 20px; background: var(--azul); color: white; border-radius: 8px; text-decoration: none; }
+.botao:hover { background: #163b59; color: white; }
+/* Duas colunas para os blocos relacionados; uma coluna no celular. */
+.grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.grade > * { min-width: 0; }
+.grade section { height: 100%; }
+@media (max-width: 700px) { .grade { grid-template-columns: 1fr; } }

@@ -1,122 +1,78 @@
-<!doctype html>
-<html lang="pt-BR">
-  <head>
-    <!-- CONFIGURAÇÕES DA PÁGINA -->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+---
+// <-------------------COMPONENTES DA PÁGINA------------------->
+// O layout cuida da estrutura HTML; esta página organiza o conteúdo.
+import LayoutPrincipal from '../layouts/LayoutPrincipal.astro';
+import Secao from '../components/Secao.astro';
+---
+<LayoutPrincipal>
+  <!-- APRESENTAÇÃO DO NEUROCOMP -->
+  <section id="inicio" aria-labelledby="titulo-inicio" class="apresentacao">
+    <div>
+      <p class="etiqueta">Neurociência Computacional · NUTES | UEPB</p>
+      <h1 id="titulo-inicio">NeuroComp</h1>
+      <p>Grupo de Pesquisa em Neurociência Computacional afiliado ao NUTES | UEPB.</p>
+      <div class="acoes">
+        <a class="botao" href="#pesquisa">Conheça nossas pesquisas</a>
+        <a class="botao" href="#equipe">Nossa equipe</a>
+      </div>
+    </div>
+    <!-- Logo oficial -->
+    <img src="/imgs/oficial_brain_no_background.png" alt="Símbolo do NeuroComp" width="1536" height="1024" fetchpriority="high" />
+  </section>
 
-    <meta
-      name="description"
-      content="Conheça o NeuroComp, grupo de pesquisa em Neurociência Computacional afiliado ao NUTES/UEPB."
-    />
+  <!-- NOTÍCIAS EM DESTAQUE -->
+  <Secao id="noticias" titulo="Notícias do laboratório" etiqueta="Acompanhe o NeuroComp">
+    <!-- Substituir o aviso por notícias reais com título, data e imagem. -->
+    <div class="pendente"><p>Em breve: notícias, eventos e novidades do NeuroComp.</p></div>
+  </Secao>
 
-    <title>NeuroComp</title>
-  </head>
+  <!-- SOBRE E LOCALIZAÇÃO -->
+  <Secao id="sobre" titulo="Sobre o NeuroComp" etiqueta="Nosso grupo">
+    <p>Somos um grupo de pesquisa em Neurociência Computacional afiliado ao NUTES, na Universidade Estadual da Paraíba (UEPB).</p>
+    <!-- A descrição dos objetivos e o endereço devem ser aprovados pelo grupo. -->
+    <div class="pendente"><p>Apresentação detalhada e informações de localização em preparação.</p></div>
+  </Secao>
 
-  <body>
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main>
-      <!-- APRESENTAÇÃO DO NEUROCOMP -->
-      <section id="inicio" aria-labelledby="titulo-inicio">
-        <h1 id="titulo-inicio">NeuroComp</h1>
+  <!-- LINHAS DE PESQUISA E PROJETOS -->
+  <Secao id="pesquisa" titulo="Linhas de pesquisa e projetos" etiqueta="O que investigamos">
+    <div class="pendente"><p>Estamos preparando a apresentação das linhas de pesquisa e dos projetos do grupo.</p></div>
+    <p class="link-projetos"><a href="https://github.com/neurocomp-nutes">Conheça nossos projetos no GitHub →</a></p>
+  </Secao>
 
-        <p>
-          Grupo de Pesquisa em Neurociência Computacional
-          afiliado ao NUTES | UEPB.
-        </p>
+  <!-- PUBLICAÇÕES -->
+  <Secao id="publicacoes" titulo="Produção científica" etiqueta="Artigos e trabalhos">
+    <!-- Cada trabalho terá autores, ano, link e situação editorial explícita. -->
+    <div class="pendente"><p>A lista de trabalhos será disponibilizada com identificação de artigos submetidos, preprints, aceitos e publicados.</p></div>
+  </Secao>
 
-        <a href="https://github.com/neurocomp-nutes">
-          Conheça nossos projetos no GitHub
-        </a>
-      </section>
-    </main>
-  </body>
-</html>
+  <!-- EQUIPE ATUAL -->
+  <Secao id="equipe" titulo="Quem faz o NeuroComp" etiqueta="Equipe">
+    <!-- Adicionar cartões apenas quando nomes, categorias e fotos forem fornecidos. -->
+    <div class="pendente"><p>Em breve, conheça os membros do grupo e seus interesses de pesquisa.</p></div>
+  </Secao>
 
-
+  <!-- ALUMNI E MEMBROS NÃO HUMANOS -->
+  <div class="grade">
+    <Secao id="alumni" titulo="Alumni" etiqueta="Nossa trajetória">
+      <p>Espaço dedicado a quem já fez parte do NeuroComp.</p>
+      <div class="pendente"><p>Lista de antigos membros em preparação.</p></div>
+    </Secao>
+    <Secao id="nao-humanos" titulo="Membros não humanos" etiqueta="Além da pesquisa">
+      <!-- O requisito informa o nome Marlboro; aguardamos foto e descrição. -->
+      <h3>Marlboro</h3>
+      <div class="pendente"><p>Foto e apresentação em breve.</p></div>
+    </Secao>
+  </div>
+</LayoutPrincipal>
 <style>
-  /* <-------------------BASE DA PÁGINA-------------------> */
-
-  /* Inclui bordas e preenchimento no cálculo do tamanho dos elementos. */
-  :global(*) {
-    box-sizing: border-box;
-  }
-
-  /* Remove a margem padrão e define a aparência geral da página. */
-  :global(body) {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.6;
-    color: #203549;
-    background-color: #f5f8fc;
-  }
-
-  /* <-------------------ÁREA PRINCIPAL-------------------> */
-
-  /* Limita a largura em telas grandes e mantém espaço nas laterais. */
-  main {
-    max-width: 960px;
-    margin-inline: auto;
-    padding: 64px 24px;
-  }
-
-  /* Destaca a apresentação com uma superfície branca e borda suave. */
-  section {
-    padding: 32px;
-    background-color: #ffffff;
-    border: 1px solid #d9e3ed;
-    border-radius: 16px;
-  }
-
-  /* <-------------------TEXTOS-------------------> */
-
-  h1 {
-    margin: 0 0 16px;
-    font-size: 48px;
-    line-height: 1.1;
-    color: #284e70;
-  }
-
-  p {
-    margin: 0 0 24px;
-    font-size: 18px;
-  }
-
-  /* <-------------------LINK E INTERAÇÃO-------------------> */
-
-  /* Mantém o sublinhado para que o link seja reconhecível. */
-  a {
-    color: #245a85;
-    font-weight: 700;
-    text-underline-offset: 4px;
-  }
-
-  /* Oferece uma resposta visual quando o mouse está sobre o link. */
-  a:hover {
-    color: #163b59;
-  }
-
-  /* Destaca o link quando ele recebe foco pela navegação com teclado. */
-  a:focus-visible {
-    outline: 3px solid #245a85;
-    outline-offset: 5px;
-    border-radius: 2px;
-  }
-
+  /* <-------------------APRESENTAÇÃO-------------------> */
+  .apresentacao { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 32px; background: #edf4fa; }
+  .apresentacao h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); letter-spacing: -0.04em; }
+  .apresentacao img { width: 100%; }
+  .link-projetos { margin-top: 24px; margin-bottom: 0; }
   /* <-------------------TELAS PEQUENAS-------------------> */
-
-  /* Ajusta os espaços e o título quando a tela tem até 600px de largura. */
-  @media (max-width: 600px) {
-    main {
-      padding: 32px 16px;
-    }
-
-    section {
-      padding: 24px;
-    }
-
-    h1 {
-      font-size: 36px;
-    }
+  @media (max-width: 700px) {
+    .apresentacao { grid-template-columns: 1fr; }
+    .apresentacao img { max-width: 280px; justify-self: center; }
   }
 </style>
