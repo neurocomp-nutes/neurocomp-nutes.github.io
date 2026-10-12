@@ -1,0 +1,91 @@
+---
+// <-------------------DADOS RECEBIDOS------------------->
+// O import de tipo orienta o editor; ele não envia código ao navegador.
+import type { Membro } from '../data/membros';
+
+interface Props {
+  membro: Membro;
+}
+
+const { membro } = Astro.props;
+const tituloId = `membro-${membro.id}`;
+---
+
+<!-- CARTÃO DE MEMBRO -->
+<article class="cartao-membro" aria-labelledby={tituloId}>
+  <!-- O recorte é apenas visual: o arquivo original permanece intacto. -->
+  <img
+    class="foto"
+    src={membro.foto}
+    alt={`Foto de ${membro.nome}`}
+    width="400"
+    height="400"
+    loading="lazy"
+    decoding="async"
+  />
+
+  <div class="informacoes">
+    <p class="categoria">{membro.categoria}</p>
+    <h3 id={tituloId}>{membro.nome}</h3>
+
+    <!-- INTERESSES DE PESQUISA -->
+    <h4>Interesses de pesquisa</h4>
+    <ul class="interesses">
+      {membro.interesses.map((interesse) => <li>{interesse}</li>)}
+    </ul>
+
+    <!-- LINKS ACADÊMICOS E CONTATO -->
+    <!-- Campos opcionais só produzem links quando estão preenchidos. -->
+    <div class="contatos">
+      {membro.lattes && <a href={membro.lattes}>Lattes</a>}
+      {membro.github && <a href={membro.github}>GitHub</a>}
+      {membro.email && (
+        <a class="email" href={`mailto:${membro.email}`}>
+          <span>E-mail institucional</span>
+          {membro.email}
+        </a>
+      )}
+    </div>
+  </div>
+</article>
+
+<style>
+  /* <-------------------ESTRUTURA DO CARTÃO-------------------> */
+  .cartao-membro {
+    min-width: 0;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background-color: #f5f8fc;
+  }
+
+  /* O formato quadrado padroniza as fotos sem deformá-las. */
+  .foto {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center 30%;
+    border-radius: 11px 11px 0 0;
+  }
+
+  .informacoes { padding: 24px; }
+
+  /* <-------------------TEXTOS E INTERESSES-------------------> */
+  .categoria {
+    margin: 0 0 8px;
+    font-size: 0.9rem;
+    color: var(--verde);
+    font-weight: 700;
+  }
+
+  h3 { margin: 0 0 24px; color: var(--azul); font-size: 1.5rem; }
+  h4 { margin: 0 0 12px; font-size: 1rem; }
+  .interesses { margin: 0 0 24px; padding-left: 20px; }
+  .interesses li + li { margin-top: 4px; }
+
+  /* <-------------------CONTATOS-------------------> */
+  .contatos { display: flex; flex-wrap: wrap; gap: 12px 20px; }
+  .contatos a { padding-block: 6px; }
+  .email { flex-basis: 100%; overflow-wrap: anywhere; font-size: 0.9rem; }
+  .email span { display: block; }
+</style>

@@ -3,7 +3,10 @@
 // O layout cuida da estrutura HTML; esta página organiza o conteúdo.
 import LayoutPrincipal from '../layouts/LayoutPrincipal.astro';
 import Secao from '../components/Secao.astro';
+import CartaoMembro from '../components/CartaoMembro.astro';
+import { membros } from '../data/membros';
 ---
+
 <LayoutPrincipal>
   <!-- APRESENTAÇÃO DO NEUROCOMP -->
   <section id="inicio" aria-labelledby="titulo-inicio" class="apresentacao">
@@ -48,7 +51,9 @@ import Secao from '../components/Secao.astro';
   <!-- EQUIPE ATUAL -->
   <Secao id="equipe" titulo="Quem faz o NeuroComp" etiqueta="Equipe">
     <!-- Adicionar cartões apenas quando nomes, categorias e fotos forem fornecidos. -->
-    <div class="pendente"><p>Em breve, conheça os membros do grupo e seus interesses de pesquisa.</p></div>
+    <div class="grade-membros">
+      {membros.map((membro) => <CartaoMembro membro={membro} />)}
+    </div>
   </Secao>
 
   <!-- ALUMNI E MEMBROS NÃO HUMANOS -->
@@ -64,7 +69,18 @@ import Secao from '../components/Secao.astro';
     </Secao>
   </div>
 </LayoutPrincipal>
+
+
 <style>
+  /* <-------------------GRADE DA EQUIPE-------------------> */
+  /* auto-fill reserva colunas para novos membros sem esticar um único cartão. */
+  .grade-membros {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: 24px;
+    align-items: start;
+  }
+
   /* <-------------------APRESENTAÇÃO-------------------> */
   .apresentacao { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 32px; background: #edf4fa; }
   .apresentacao h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); letter-spacing: -0.04em; }
