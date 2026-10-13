@@ -25,11 +25,10 @@ const tituloId = `membro-${membro.id}`;
   />
 
   <div class="informacoes">
-    <p class="categoria">{membro.categoria}</p>
-    <h3 id={tituloId}>{membro.nome}</h3>
+    <h4 id={tituloId}>{membro.nome}</h4>
 
     <!-- INTERESSES DE PESQUISA -->
-    <h4>Interesses de pesquisa</h4>
+    <h5>Interesses de pesquisa</h5>
     <ul class="interesses">
       {membro.interesses.map((interesse) => <li>{interesse}</li>)}
     </ul>
@@ -39,6 +38,7 @@ const tituloId = `membro-${membro.id}`;
     <div class="contatos">
       {membro.lattes && <a href={membro.lattes}>Lattes</a>}
       {membro.github && <a href={membro.github}>GitHub</a>}
+      {membro.site && <a href={membro.site}>Site pessoal</a>}
       {membro.email && (
         <a class="email" href={`mailto:${membro.email}`}>
           <span>E-mail institucional</span>
@@ -56,6 +56,7 @@ const tituloId = `membro-${membro.id}`;
     border: 1px solid var(--borda);
     border-radius: 12px;
     background-color: #f5f8fc;
+    transition: box-shadow 180ms ease, border-color 180ms ease;
   }
 
   /* O formato quadrado padroniza as fotos sem deformá-las. */
@@ -71,15 +72,8 @@ const tituloId = `membro-${membro.id}`;
   .informacoes { padding: 24px; }
 
   /* <-------------------TEXTOS E INTERESSES-------------------> */
-  .categoria {
-    margin: 0 0 8px;
-    font-size: 0.9rem;
-    color: var(--verde);
-    font-weight: 700;
-  }
-
-  h3 { margin: 0 0 24px; color: var(--azul); font-size: 1.5rem; }
-  h4 { margin: 0 0 12px; font-size: 1rem; }
+  h4 { margin: 0 0 24px; color: var(--azul); font-size: 1.5rem; }
+  h5 { margin: 0 0 12px; font-size: 1rem; }
   .interesses { margin: 0 0 24px; padding-left: 20px; }
   .interesses li + li { margin-top: 4px; }
 
@@ -88,4 +82,23 @@ const tituloId = `membro-${membro.id}`;
   .contatos a { padding-block: 6px; }
   .email { flex-basis: 100%; overflow-wrap: anywhere; font-size: 0.9rem; }
   .email span { display: block; }
+
+  /* <-------------------DESTAQUE E ACESSIBILIDADE-------------------> */
+  /* O conteúdo permanece visível em mouse, teclado e telas de toque. */
+  .cartao-membro:focus-within {
+    border-color: var(--azul);
+    box-shadow: 0 8px 24px rgb(40 78 112 / 12%);
+  }
+
+  /* Aplica hover apenas em dispositivos que realmente suportam esse gesto. */
+  @media (hover: hover) and (pointer: fine) {
+    .cartao-membro:hover {
+      border-color: var(--azul);
+      box-shadow: 0 8px 24px rgb(40 78 112 / 12%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cartao-membro { transition: none; }
+  }
 </style>

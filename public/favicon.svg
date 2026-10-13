@@ -1,9 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 128 128">
-    <path d="M50.4 78.5a75.1 75.1 0 0 0-28.5 6.9l24.2-65.7c.7-2 1.9-3.2 3.4-3.2h29c1.5 0 2.7 1.2 3.4 3.2l24.2 65.7s-11.6-7-28.5-7L67 45.5c-.4-1.7-1.6-2.8-2.9-2.8-1.3 0-2.5 1.1-2.9 2.7L50.4 78.5Zm-1.1 28.2Zm-4.2-20.2c-2 6.6-.6 15.8 4.2 20.2a17.5 17.5 0 0 1 .2-.7 5.5 5.5 0 0 1 5.7-4.5c2.8.1 4.3 1.5 4.7 4.7.2 1.1.2 2.3.2 3.5v.4c0 2.7.7 5.2 2.2 7.4a13 13 0 0 0 5.7 4.9v-.3l-.2-.3c-1.8-5.6-.5-9.5 4.4-12.8l1.5-1a73 73 0 0 0 3.2-2.2 16 16 0 0 0 6.8-11.4c.3-2 .1-4-.6-6l-.8.6-1.6 1a37 37 0 0 1-22.4 2.7c-5-.7-9.7-2-13.2-6.2Z" />
-    <style>
-        path { fill: #000; }
-        @media (prefers-color-scheme: dark) {
-            path { fill: #FFF; }
-        }
-    </style>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <title>NeuroComp</title>
+  <!-- CORES E CONTORNO SIMPLIFICADOS PARA LEITURA EM TAMANHO PEQUENO -->
+  <defs>
+    <linearGradient id="cor" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#246759" />
+      <stop offset="0.48" stop-color="#1e65a3" />
+      <stop offset="1" stop-color="#243e72" />
+    </linearGradient>
+    <path id="cerebro" d="M13 55C13 43 19 35 27 32C29 23 38 18 48 20C57 15 66 17 72 20C82 17 91 23 95 29C106 29 110 38 113 44C121 49 120 60 116 65C117 76 108 85 98 85C91 89 84 87 78 85C85 95 75 100 65 101L54 117L43 110L46 100C32 103 24 97 20 88C14 84 13 76 13 71C5 64 8 59 13 55Z" />
+    <clipPath id="limite"><use href="#cerebro" /></clipPath>
+  </defs>
+  <!-- ESPELHAMENTO HORIZONTAL DA REFERÊNCIA: ORIENTAÇÃO PARA A DIREITA -->
+  <g transform="translate(128 0) scale(-1 1)">
+    <use href="#cerebro" fill="url(#cor)" stroke="#ffffff" stroke-width="4" stroke-linejoin="round" />
+    <!-- CIRCUITOS REDUZIDOS PARA EVITAR EXCESSO DE DETALHES NO FAVICON -->
+    <g clip-path="url(#limite)" stroke="#65c3b7" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 35H58L75 18M42 19L54 28H68M12 48H36L62 75L86 99M9 66H59L97 28M14 81H51L69 101M60 52L69 61H86L95 51H106M105 44V75H111V44" />
+      <circle cx="68" cy="28" r="3" fill="#65c3b7" stroke="none" />
+      <circle cx="60" cy="52" r="3" fill="#65c3b7" stroke="none" />
+      <circle cx="106" cy="51" r="3" fill="#65c3b7" stroke="none" />
+      <circle cx="35" cy="66" r="3" fill="#65c3b7" stroke="none" />
+      <circle cx="75" cy="76" r="4" />
+      <path d="M78 79L93 94" />
+    </g>
+  </g>
 </svg>

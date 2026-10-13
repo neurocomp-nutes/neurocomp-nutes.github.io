@@ -4,7 +4,16 @@
 import LayoutPrincipal from '../layouts/LayoutPrincipal.astro';
 import Secao from '../components/Secao.astro';
 import CartaoMembro from '../components/CartaoMembro.astro';
-import { membros } from '../data/membros';
+import { membros, categoriasMembros } from '../data/membros';
+
+// <-------------------AGRUPAMENTO DA EQUIPE------------------->
+// O agrupamento acontece no build, sem JavaScript adicional no navegador.
+const gruposMembros = categoriasMembros
+  .map((grupo) => ({
+    ...grupo,
+    pessoas: membros.filter((membro) => membro.categoria === grupo.categoria),
+  }))
+  .filter((grupo) => grupo.pessoas.length > 0);
 ---
 
 <LayoutPrincipal>
@@ -20,7 +29,7 @@ import { membros } from '../data/membros';
       </div>
     </div>
     <!-- Logo oficial -->
-    <img src="/imgs/oficial_brain_no_background.png" alt="Símbolo do NeuroComp" width="1536" height="1024" fetchpriority="high" />
+    <img src="/imgs/logos/oficial_brain_no_background.png" alt="Símbolo do NeuroComp" width="1536" height="1024" fetchpriority="high" />
   </section>
 
   <!-- NOTÍCIAS EM DESTAQUE -->
@@ -51,9 +60,14 @@ import { membros } from '../data/membros';
   <!-- EQUIPE ATUAL -->
   <Secao id="equipe" titulo="Quem faz o NeuroComp" etiqueta="Equipe">
     <!-- Adicionar cartões apenas quando nomes, categorias e fotos forem fornecidos. -->
-    <div class="grade-membros">
-      {membros.map((membro) => <CartaoMembro membro={membro} />)}
-    </div>
+    {gruposMembros.map((grupo) => (
+      <section class="grupo-membros" aria-labelledby={`grupo-${grupo.id}`}>
+        <h3 class="titulo-grupo" id={`grupo-${grupo.id}`}>{grupo.titulo}</h3>
+        <div class="grade-membros">
+          {grupo.pessoas.map((membro) => <CartaoMembro membro={membro} />)}
+        </div>
+      </section>
+    ))}
   </Secao>
 
   <!-- ALUMNI E MEMBROS NÃO HUMANOS -->
@@ -73,6 +87,19 @@ import { membros } from '../data/membros';
 
 <style>
   /* <-------------------GRADE DA EQUIPE-------------------> */
+  /* Neutraliza o estilo global de section nas subseções internas da equipe. */
+  .grupo-membros { padding: 0; border: 0; border-radius: 0; background: transparent; }
+  .grupo-membros + .grupo-membros { margin-top: 48px; }
+  .titulo-grupo { margin: 0 0 24px; color: var(--azul); font-size: 1.4rem; }
+  .titulo-grupo::after {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 3px;
+    margin-top: 12px;
+    background: var(--verde);
+    border-radius: 2px;
+  }
   /* auto-fill reserva colunas para novos membros sem esticar um único cartão. */
   .grade-membros {
     display: grid;
