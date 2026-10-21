@@ -3,29 +3,33 @@
 
 // <-------------------GRUPOS DA EQUIPE------------------->
 // Esta lista define os títulos e a ordem das subseções; grupos vazios não aparecem.
-export const categoriasMembros = [
-  { id: 'doutores', titulo: 'Doutores', categoria: 'Pesquisador Doutor' },
-  { id: 'mestres', titulo: 'Mestres', categoria: 'Pesquisador Mestre' },
-  { id: 'mestrandos', titulo: 'Mestrandos', categoria: 'Pesquisador Mestrando' },
-  { id: 'graduados', titulo: 'Graduados', categoria: 'Pesquisador Graduado' },
-  { id: 'graduandos', titulo: 'Graduandos', categoria: 'Pesquisador Graduando' },
+export const gruposEquipe = [
+  { id: 'coordenacao', titulo: 'Coordenação' },
+  { id: 'gerencia', titulo: 'Gerência' },
+  { id: 'doutores', titulo: 'Doutores' },
+  { id: 'mestres', titulo: 'Mestres' },
+  { id: 'mestrandos', titulo: 'Mestrandos' },
+  { id: 'graduados', titulo: 'Graduados' },
+  { id: 'graduandos', titulo: 'Graduandos' },
 ] as const;
 
-// Deriva as categorias permitidas da lista acima, evitando nomes divergentes.
-export type CategoriaMembro = (typeof categoriasMembros)[number]['categoria'];
+// Deriva os grupos permitidos da lista acima, evitando nomes divergentes.
+export type GrupoMembro = (typeof gruposEquipe)[number]['id'];
 
 // <-------------------FORMATO DOS DADOS------------------->
 // O tipo define quais informações cada registro precisa fornecer
-// Não incluímos breve descrição nesta etapa
 export interface Membro {
   id: string;
   nome: string;
-  categoria: CategoriaMembro;
+  // Define uma única subseção; não é exibido como informação no cartão.
+  grupo: GrupoMembro;
   interesses: string[];
   foto: string;
-  lattes?: string;
+  // Ajusta a posição da foto dentro do recorte quadrado, sem editar o arquivo.
+  posicaoFoto?: string;
+  lattes?: string; // O ponto de interrogação indica que esta propriedade é opcional
   email?: string;
-  github?: string;
+  github?: string; 
   // Separa o site pessoal do GitHub para apresentar o rótulo correto no cartão.
   site?: string;
 }
@@ -37,12 +41,12 @@ export const membros: Membro[] = [
   {
     id: 'georis-samuel',
     nome: 'Georis Samuel',
-    categoria: 'Pesquisador Graduando',
+    grupo: 'graduandos',
     interesses: [
       'Eletroencefalograma',
       'Memória',
       'Comprometimento cognitivo',
-      'Engenharia de software',
+      'Engenharia de Software',
       'Aprendizado de Máquina',
     ],
     foto: '/imgs/people/georis.jpg',
@@ -53,7 +57,7 @@ export const membros: Membro[] = [
   {
     id: 'shara-isabell',
     nome: 'Shara Isabell Alves de Oliveira',
-    categoria: 'Pesquisador Graduando',
+    grupo: 'graduandos',
     interesses: [
       'Eletroencefalograma', 
       'Aprendizado de Máquina',
@@ -68,7 +72,7 @@ export const membros: Membro[] = [
   {
     id: 'tiago-souto-rocha',
     nome: 'Tiago Souto Rocha',
-    categoria: 'Pesquisador Graduando',
+    grupo: 'gerencia',
     interesses: [
       'Eletroencefalograma',
       'Conectividade',
@@ -84,7 +88,7 @@ export const membros: Membro[] = [
   {
     id: 'rennan-fernandes',
     nome: 'Rennan Fernandes da Silva',
-    categoria: 'Pesquisador Graduando',
+    grupo: 'graduandos',
     interesses: [
       'Eletroencefalograma',
       'Dor',
@@ -95,5 +99,85 @@ export const membros: Membro[] = [
     lattes: 'https://lattes.cnpq.br/3042696533091454',
     email: 'rennan.fernandes@aluno.uepb.edu.br',
     github: 'https://github.com/Rennan0102',
+  },
+  {
+    id: 'joao-paulo',
+    nome: 'João Paulo',
+    grupo: 'graduandos',
+    interesses: [
+      'Processamento de Sinais Neurofisiológicos',
+      'Machine Learning',
+      'Inteligência Artificial',
+      'Engenharia de Software',
+    ],
+    foto: '/imgs/people/joao_paulo.jpeg',
+    posicaoFoto: 'center top',
+    lattes: 'http://lattes.cnpq.br/7894766207491972',
+    email: 'j.paulo@aluno.uepb.edu.br',
+    github: 'https://github.com/jpauloaraujo',
+  },
+  {
+    id: 'lais-borba',
+    nome: 'Laís Borba',
+    grupo: 'graduandos',
+    interesses: [
+      'Dor crônica',
+      'Neuromodulação',
+      'Eletroencefalografia (EEG)',
+      'Interfaces cérebro-computador (BCI)',
+    ],
+    foto: '/imgs/people/lais.jpeg',
+    posicaoFoto: 'center 15%',
+    lattes: 'http://lattes.cnpq.br/8332901853866305',
+    email: 'lais.borba@aluno.uepb.edu.br',
+    github: 'https://github.com/laisborba-rgb',
+  },
+  {
+    id: 'aline-macedo-brito',
+    nome: 'Aline Macedo Brito',
+    grupo: 'graduandos',
+    interesses: [
+      'Memória',
+      'Envelhecimento',
+      'Eletroencefalograma',
+      'Neurociência',
+      'Saúde mental',
+    ],
+    foto: '/imgs/people/aline.jpeg',
+    posicaoFoto: 'center',
+    lattes: 'http://lattes.cnpq.br/6614470443695122',
+    email: 'macedo.aline@aluno.uepb.edu.br',
+    github: 'https://github.com/Alinemaced0',
+  },
+  {
+    id: 'danilo-valerio',
+    nome: 'Danilo Valério',
+    grupo: 'graduados',
+    interesses: [
+      'Processamento de Sinais Neurofisiológicos',
+      'Ciência de Dados',
+      'Desenvolvimento de Software',
+    ],
+    foto: '/imgs/people/danilo.jpeg',
+    posicaoFoto: 'center 75%',
+    lattes: 'https://lattes.cnpq.br/3869570951545715',
+    email: 'danilo.valerio@aluno.uepb.edu.br',
+    github: 'https://github.com/danilopvalerio',
+  },
+  {
+    id: 'kaique-ivo',
+    nome: 'Kaique Ivo',
+    grupo: 'mestrandos',
+    interesses: [
+      'Eletromiograma',
+      'Função Neuromuscular',
+      'Aprendizado de Máquina',
+      'Engenharia de Software',
+    ],
+    foto: '/imgs/people/kaique.jpeg',
+    posicaoFoto: 'center 35%',
+    lattes: 'http://lattes.cnpq.br/8142855304935623',
+    email: 'kaique.ivo@aluno.uepb.edu.br',
+    github: 'https://github.com/KaiqueIvo04',
   },
 ];

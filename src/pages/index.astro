@@ -4,14 +4,14 @@
 import LayoutPrincipal from '../layouts/LayoutPrincipal.astro';
 import Secao from '../components/Secao.astro';
 import CartaoMembro from '../components/CartaoMembro.astro';
-import { membros, categoriasMembros } from '../data/membros';
+import { membros, gruposEquipe } from '../data/membros';
 
 // <-------------------AGRUPAMENTO DA EQUIPE------------------->
 // O agrupamento acontece no build, sem JavaScript adicional no navegador.
-const gruposMembros = categoriasMembros
+const gruposMembros = gruposEquipe
   .map((grupo) => ({
     ...grupo,
-    pessoas: membros.filter((membro) => membro.categoria === grupo.categoria),
+    pessoas: membros.filter((membro) => membro.grupo === grupo.id),
   }))
   .filter((grupo) => grupo.pessoas.length > 0);
 ---
