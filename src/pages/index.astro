@@ -151,7 +151,6 @@ const noticias = [
         </article>
       ))}
     </div>
-    <p class="dica-carrossel">Use as setas para explorar as notícias.</p>
   </Secao>
 
   <!-- SOBRE E LOCALIZAÇÃO -->
@@ -201,19 +200,70 @@ const noticias = [
 </LayoutPrincipal>
 
 <script>
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   document.querySelectorAll<HTMLElement>('[data-carousel-viewport]').forEach((viewport) => {
     const name = viewport.dataset.carouselViewport;
     if (!name) return;
 
+    const isHighlightCarousel = name === 'destaques';
     const controls = document.querySelectorAll<HTMLButtonElement>(`[data-carousel-control="${name}"]`);
     const indicators = document.querySelectorAll<HTMLButtonElement>(`[data-carousel-indicator="${name}"]`);
     const slides = viewport.children;
+    let autoplayTimer: number | undefined;
+
+    const currentSlideIndex = () => {
+      const viewportLeft = viewport.getBoundingClientRect().left;
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      Array.from(slides).forEach((slide, index) => {
+        const distance = Math.abs(slide.getBoundingClientRect().left - viewportLeft);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      return closestIndex;
+    };
+
+    const goToSlide = (index: number, behavior: ScrollBehavior) => {
+      const slide = slides[index];
+      if (!slide) return;
+
+      const left = viewport.scrollLeft
+        + slide.getBoundingClientRect().left
+        - viewport.getBoundingClientRect().left;
+      viewport.scrollTo({ left, behavior });
+    };
+
+    const scheduleAutoplay = () => {
+      if (autoplayTimer !== undefined) {
+        window.clearTimeout(autoplayTimer);
+        autoplayTimer = undefined;
+      }
+
+      if (
+        !isHighlightCarousel ||
+        document.hidden ||
+        slides.length < 2
+      ) return;
+
+      autoplayTimer = window.setTimeout(() => {
+        const nextIndex = (currentSlideIndex() + 1) % slides.length;
+        goToSlide(nextIndex, reducedMotion.matches ? 'instant' : 'smooth');
+        scheduleAutoplay();
+      }, 5000);
+    };
 
     const updateState = () => {
       const maxScroll = viewport.scrollWidth - viewport.clientWidth;
       controls.forEach((control) => {
+        if (isHighlightCarousel) {
+          control.disabled = false;
+          return;
+        }
         const direction = Number(control.dataset.carouselDirection);
         control.disabled = direction < 0
           ? viewport.scrollLeft <= 1
@@ -221,10 +271,7 @@ const noticias = [
       });
 
       if (indicators.length) {
-        const activeIndex = Math.min(
-          Math.round(viewport.scrollLeft / viewport.clientWidth),
-          indicators.length - 1,
-        );
+        const activeIndex = currentSlideIndex();
         indicators.forEach((indicator, index) => {
           if (index === activeIndex) indicator.setAttribute('aria-current', 'true');
           else indicator.removeAttribute('aria-current');
@@ -235,26 +282,47 @@ const noticias = [
     controls.forEach((control) => {
       control.addEventListener('click', () => {
         const direction = Number(control.dataset.carouselDirection);
+        if (isHighlightCarousel) {
+          const nextIndex = (currentSlideIndex() + direction + slides.length) % slides.length;
+          goToSlide(nextIndex, reducedMotion.matches ? 'instant' : 'smooth');
+          scheduleAutoplay();
+          return;
+        }
+
         const step = name === 'noticias'
           ? (slides[0]?.getBoundingClientRect().width ?? viewport.clientWidth) + 20
           : viewport.clientWidth;
-        viewport.scrollBy({ left: direction * step, behavior: reducedMotion ? 'instant' : 'smooth' });
+        viewport.scrollBy({ left: direction * step, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
       });
     });
 
     indicators.forEach((indicator) => {
       indicator.addEventListener('click', () => {
         const index = Number(indicator.dataset.carouselSlide);
-        viewport.scrollTo({
-          left: viewport.clientWidth * index,
-          behavior: reducedMotion ? 'instant' : 'smooth',
-        });
+        if (isHighlightCarousel) {
+          goToSlide(index, reducedMotion.matches ? 'instant' : 'smooth');
+        } else {
+          viewport.scrollTo({
+            left: viewport.clientWidth * index,
+            behavior: reducedMotion.matches ? 'instant' : 'smooth',
+          });
+        }
+        scheduleAutoplay();
       });
     });
 
-    viewport.addEventListener('scroll', updateState, { passive: true });
-    window.addEventListener('resize', updateState);
+    viewport.addEventListener('scroll', () => {
+      updateState();
+      scheduleAutoplay();
+    }, { passive: true });
+    window.addEventListener('resize', () => {
+      updateState();
+      scheduleAutoplay();
+    });
+    document.addEventListener('visibilitychange', scheduleAutoplay);
+    reducedMotion.addEventListener('change', scheduleAutoplay);
     updateState();
+    scheduleAutoplay();
   });
 </script>
 
@@ -290,6 +358,7 @@ const noticias = [
   /* <-------------------NOTÍCIAS E CARROSSÉIS-------------------> */
   .destaques { margin: 8px 0 40px; }
   .cabecalho-carrossel { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 18px; }
+  .destaques > .cabecalho-carrossel { flex-wrap: wrap; }
   .cabecalho-carrossel .etiqueta { margin: 0 0 6px; }
   .titulo-carrossel { margin: 0; color: var(--azul); font-size: 1.35rem; }
   .controles { display: flex; gap: 8px; flex-shrink: 0; }
