@@ -11,8 +11,8 @@
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     line-height: 1.6;
-    color: #203549;
-    background-color: #f5f8fc;
+    color: var(--texto);
+    background-color: var(--fundo);
   }
 
   /* <-------------------ÁREA PRINCIPAL-------------------> */
@@ -27,8 +27,8 @@
   /* Destaca a apresentação com uma superfície branca e borda suave. */
   section {
     padding: 32px;
-    background-color: #ffffff;
-    border: 1px solid #d9e3ed;
+    background-color: var(--superficie);
+    border: 1px solid var(--borda);
     border-radius: 16px;
   }
 
@@ -38,7 +38,7 @@
     margin: 0 0 16px;
     font-size: 48px;
     line-height: 1.1;
-    color: #284e70;
+    color: var(--texto-titulo);
   }
 
   p {
@@ -50,19 +50,19 @@
 
   /* Mantém o sublinhado para que o link seja reconhecível. */
   a {
-    color: #245a85;
+    color: var(--link);
     font-weight: 700;
     text-underline-offset: 4px;
   }
 
   /* Oferece uma resposta visual quando o mouse está sobre o link. */
   a:hover {
-    color: #163b59;
+    color: var(--link-hover);
   }
 
   /* Destaca o link quando ele recebe foco pela navegação com teclado. */
   a:focus-visible {
-    outline: 3px solid #245a85;
+    outline: 3px solid var(--foco);
     outline-offset: 5px;
     border-radius: 2px;
   }
@@ -85,34 +85,104 @@
   }
 
 /* <-------------------IDENTIDADE E ACESSIBILIDADE-------------------> */
-/* Variáveis permitem ajustar a paleta em um único lugar. */
+/* VARIÁVEIS PARA AJUSTAR AS CORES DOS TEMAS*/
 :root {
+  color-scheme: light;
   --azul: #284e70;
   --texto: #203549;
   --borda: #d9e3ed;
   --verde: #246759;
+  --fundo: #f5f8fc;
+  --superficie: #fff;
+  --superficie-suave: #edf4fa;
+  --texto-secundario: #506477;
+  --texto-titulo: #284e70;
+  --link: #245a85;
+  --link-hover: #163b59;
+  --foco: #245a85;
+  --botao-hover: #163b59;
+  --faixa-marca: #fff;
+  --faixa-navegacao: #284e70;
+  --faixa-rodape: #203b54;
+  --texto-rodape: #f5f8fc;
+  --texto-rodape-suave: #d5e0ea;
+  --destaque-rodape: #a8d5c8;
+  --menu-hover: #d9e3ed;
+  --menu-indicador: #a9c3da;
+  --sombra-cartao: rgb(40 78 112 / 12%);
+}
+:root[data-theme='gray'] {
+  color-scheme: dark;
+  --azul: #d4cec3;
+  --texto: #ddd8cf;
+  --borda: #514d46;
+  --verde: #c4bdb1;
+  --fundo: #252421;
+  --superficie: #302e2a;
+  --superficie-suave: #3b3833;
+  --texto-secundario: #b7b0a5;
+  --texto-titulo: #eee9df;
+  --link: #d4cec3;
+  --link-hover: #fffaf0;
+  --foco: #e4ddd0;
+  --botao-hover: #625c52;
+  --faixa-marca: #302e2a;
+  --faixa-navegacao: #252421;
+  --faixa-rodape: #201f1c;
+  --texto-rodape: #eee9df;
+  --texto-rodape-suave: #c2bbaf;
+  --destaque-rodape: #d2cabc;
+  --menu-hover: #eee9df;
+  --menu-indicador: #c4bdb1;
+  --sombra-cartao: rgb(0 0 0 / 24%);
+}
+:root[data-theme='blue'] {
+  color-scheme: dark;
+  --azul: #91b5d4;
+  --texto: #e1eaf2;
+  --borda: #354a5e;
+  --verde: #82c7ad;
+  --fundo: #111b26;
+  --superficie: #1a2938;
+  --superficie-suave: #203548;
+  --texto-secundario: #b4c3d1;
+  --texto-titulo: #b9d5ed;
+  --link: #a9c9e5;
+  --link-hover: #d1e5f5;
+  --foco: #b9d5ed;
+  --botao-hover: #37648b;
+  --faixa-marca: #172635;
+  --faixa-navegacao: #142c40;
+  --faixa-rodape: #203b54;
+  --texto-rodape: #f5f8fc;
+  --texto-rodape-suave: #d5e0ea;
+  --destaque-rodape: #a8d5c8;
+  --menu-hover: #d9e3ed;
+  --menu-indicador: #a9c3da;
+  --sombra-cartao: rgb(0 0 0 / 24%);
 }
 html { scroll-behavior: smooth; }
 img { max-width: 100%; height: auto; }
 section, footer { scroll-margin-top: 24px; }
-h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.2; margin: 0 0 16px; color: var(--azul); }
+h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.2; margin: 0 0 16px; color: var(--texto-titulo); }
 h3 { margin-top: 0; }
 /* O link aparece ao receber foco e permite saltar a navegação. */
-.pular-conteudo { position: absolute; left: 16px; top: -100px; background: white; padding: 12px; z-index: 10; }
+.pular-conteudo { position: absolute; left: 16px; top: -100px; background: var(--superficie); padding: 12px; z-index: 10; }
 .pular-conteudo:focus { top: 16px; }
 /* Respeita a preferência do visitante por menos movimento. */
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 /* <-------------------ESTRUTURA DAS SEÇÕES-------------------> */
 main { max-width: 1160px; display: grid; gap: 24px; padding-top: 32px; }
+main > * { min-width: 0; }
 section { padding: clamp(24px, 4vw, 48px); }
 section p { max-width: 68ch; }
 .etiqueta { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 700; color: var(--verde); }
-.pendente { border-left: 3px solid var(--borda); padding: 16px 20px; background: #f5f8fc; }
+.pendente { border-left: 3px solid var(--borda); padding: 16px 20px; background: var(--superficie-suave); }
 .pendente p { margin-bottom: 0; font-size: 1rem; }
 .acoes { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
-.botao { display: inline-block; padding: 12px 20px; background: var(--azul); color: white; border-radius: 8px; text-decoration: none; }
-.botao:hover { background: #163b59; color: white; }
+.botao { display: inline-block; padding: 12px 20px; background: var(--faixa-navegacao); color: white; border-radius: 8px; text-decoration: none; }
+.botao:hover { background: var(--botao-hover); color: white; }
 /* Duas colunas para os blocos relacionados; uma coluna no celular. */
 .grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .grade > * { min-width: 0; }

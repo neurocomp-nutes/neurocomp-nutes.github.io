@@ -6,13 +6,28 @@ import Cabecalho from '../components/Cabecalho.astro';
 import Rodape from '../components/Rodape.astro';
 ---
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="light">
   <head>
     <!-- CONFIGURAÇÕES DA PÁGINA -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Conheça o NeuroComp, grupo de pesquisa em Neurociência Computacional afiliado ao NUTES/UEPB." />
     <title>NeuroComp | NUTES/UEPB</title>
+    <script is:inline>
+      try {
+        const savedTheme = localStorage.getItem('neurocomp-theme');
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = savedTheme === 'dark' ? 'gray' : savedTheme;
+        document.documentElement.dataset.theme = theme === 'gray' || theme === 'blue' || theme === 'light'
+          ? theme
+          : systemPrefersDark ? 'gray' : 'light';
+      } catch (error) {
+        console.error('Não foi possível carregar a preferência de tema.', error);
+        document.documentElement.dataset.theme = window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'gray'
+          : 'light';
+      }
+    </script>
     <!-- ÍCONE DA ABA DO NAVEGADOR -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=neurocomp-logo-1" />
   </head>

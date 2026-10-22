@@ -56,7 +56,7 @@ const tituloId = `membro-${membro.id}`;
     min-width: 0;
     border: 1px solid var(--borda);
     border-radius: 12px;
-    background-color: #f5f8fc;
+    background-color: var(--superficie-suave);
     transition: box-shadow 180ms ease, border-color 180ms ease;
   }
 
@@ -73,7 +73,7 @@ const tituloId = `membro-${membro.id}`;
   .informacoes { padding: 24px; }
 
   /* <-------------------TEXTOS E INTERESSES-------------------> */
-  h4 { margin: 0 0 24px; color: var(--azul); font-size: 1.5rem; }
+  h4 { margin: 0 0 24px; color: var(--texto-titulo); font-size: 1.5rem; }
   h5 { margin: 0 0 12px; font-size: 1rem; }
   .interesses { margin: 0 0 24px; padding-left: 20px; }
   .interesses li + li { margin-top: 4px; }
@@ -88,14 +88,14 @@ const tituloId = `membro-${membro.id}`;
   /* O conteúdo permanece visível em mouse, teclado e telas de toque. */
   .cartao-membro:focus-within {
     border-color: var(--azul);
-    box-shadow: 0 8px 24px rgb(40 78 112 / 12%);
+    box-shadow: 0 8px 24px var(--sombra-cartao);
   }
 
   /* Aplica hover apenas em dispositivos que realmente suportam esse gesto. */
   @media (hover: hover) and (pointer: fine) {
     .cartao-membro:hover {
       border-color: var(--azul);
-      box-shadow: 0 8px 24px rgb(40 78 112 / 12%);
+      box-shadow: 0 8px 24px var(--sombra-cartao);
     }
   }
 
