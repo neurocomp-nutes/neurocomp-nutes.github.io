@@ -1,26 +1,196 @@
-<!-- CONTATO E RODAPÉ -->
 <footer id="contato" aria-labelledby="titulo-contato">
   <div class="rodape-interno">
-    <div>
+    <div class="apresentacao-rodape">
       <p class="etiqueta">Contato</p>
-      <h2 id="titulo-contato">Entre em contato conosco</h2>
-      <p>Grupo de Pesquisa em Neurociência Computacional<br />NUTES | UEPB</p>
+      <h2 id="titulo-contato">Vamos conversar?</h2>
+      <p class="descricao">Grupo de Pesquisa em Neurociência Computacional<br />NUTES | UEPB</p>
     </div>
-    <!-- Canais informados no perfil oficial da organização. -->
-    <nav aria-label="Canais do NeuroComp">
-      <a href="mailto:neurocomp.nutes@gmail.com">neurocomp.nutes@gmail.com</a>
-      <a href="https://www.instagram.com/neuro_comp/">Instagram</a>
-      <a href="https://github.com/neurocomp-nutes">GitHub</a>
-      <a href="#inicio">Voltar ao início ↑</a>
+
+    <nav class="redes-sociais" aria-label="Canais de contato do NeuroComp">
+      <p class="titulo-redes">Acompanhe e fale com o NeuroComp</p>
+      <a href="mailto:neurocomp.nutes@gmail.com">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+          <path d="m4 7 8 6 8-6"></path>
+        </svg>
+        <span>neurocomp.nutes@gmail.com</span>
+      </a>
+      <a href="https://www.instagram.com/neuro_comp/">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+          <circle cx="12" cy="12" r="4"></circle>
+          <circle class="ponto" cx="18" cy="6" r="1"></circle>
+        </svg>
+        <span>Instagram</span>
+      </a>
+      <a href="https://github.com/neurocomp-nutes">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 6v-3.9a3.4 3.4 0 0 0-.9-2.7c3-.3 6.1-1.5 6.1-6.7a5.2 5.2 0 0 0-1.4-3.6 4.8 4.8 0 0 0-.1-3.6S17.5 1.2 15 3a13.3 13.3 0 0 0-6 0C6.5 1.2 5.3 1.5 5.3 1.5a4.8 4.8 0 0 0-.1 3.6 5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.1 6.4 6.1 6.7a3.4 3.4 0 0 0-.9 2.7V22"></path>
+        </svg>
+        <span>GitHub</span>
+      </a>
     </nav>
+
+    <div class="rodape-final">
+      <p>NeuroComp · NUTES/UEPB</p>
+      <a class="voltar-inicio" href="#inicio">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 19V5m-7 7 7-7 7 7"></path>
+        </svg>
+        <span>Voltar ao início</span>
+      </a>
+    </div>
   </div>
 </footer>
+
 <style>
-  /* <-------------------RODAPÉ-------------------> */
-  footer { background: #e7eef5; border-top: 1px solid var(--borda); }
-  .rodape-interno { max-width: 1160px; margin-inline: auto; padding: 48px 24px; display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
-  h2 { font-size: 1.5rem; }
-  p { font-size: 1rem; }
-  nav { display: grid; align-content: start; gap: 12px; }
-  a { overflow-wrap: anywhere; }
+  footer {
+    background: #203b54;
+    color: #f5f8fc;
+  }
+
+  .rodape-interno {
+    max-width: 1160px;
+    margin-inline: auto;
+    padding: 56px 24px 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 40px 24px;
+  }
+
+  .etiqueta {
+    margin: 0 0 8px;
+    color: #a8d5c8;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    margin: 0 0 12px;
+    color: #fff;
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+    line-height: 1.2;
+  }
+
+  .descricao {
+    margin: 0 0 16px;
+    color: #d5e0ea;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .redes-sociais {
+    display: grid;
+    align-content: start;
+    gap: 14px;
+  }
+
+  .titulo-redes {
+    margin: 0 0 2px;
+    color: #d5e0ea;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .redes-sociais a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .redes-sociais a:hover,
+  .redes-sociais a:hover span {
+    color: #a8d5c8;
+  }
+
+  .redes-sociais svg,
+  .voltar-inicio svg {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 auto;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+  }
+
+  .redes-sociais .ponto {
+    fill: currentColor;
+    stroke: none;
+  }
+
+  .rodape-final {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-top: 20px;
+    border-top: 1px solid rgb(255 255 255 / 20%);
+  }
+
+  .rodape-final p {
+    margin: 0;
+    color: #d5e0ea;
+    font-size: 0.875rem;
+  }
+
+  .voltar-inicio {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 9px 14px;
+    border: 1px solid rgb(255 255 255 / 45%);
+    border-radius: 999px;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+  }
+
+  .voltar-inicio:hover {
+    transform: translateY(-2px);
+    border-color: #a8d5c8;
+    background: rgb(255 255 255 / 10%);
+    color: #fff;
+  }
+
+  .voltar-inicio svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  footer a:focus-visible {
+    outline-color: #a8d5c8;
+  }
+
+  @media (max-width: 600px) {
+    .rodape-interno {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 40px 20px 20px;
+    }
+
+    .rodape-final {
+      grid-column: 1;
+      align-items: flex-start;
+      flex-direction: column-reverse;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .voltar-inicio {
+      transition: none;
+    }
+
+    .voltar-inicio:hover {
+      transform: none;
+    }
+  }
 </style>
