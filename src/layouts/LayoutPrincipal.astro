@@ -16,16 +16,10 @@ import Rodape from '../components/Rodape.astro';
     <script is:inline>
       try {
         const savedTheme = localStorage.getItem('neurocomp-theme');
-        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = savedTheme === 'dark' ? 'gray' : savedTheme;
-        document.documentElement.dataset.theme = theme === 'gray' || theme === 'blue' || theme === 'light'
-          ? theme
-          : systemPrefersDark ? 'gray' : 'light';
+        document.documentElement.dataset.theme = savedTheme === 'blue' ? 'blue' : 'light';
       } catch (error) {
         console.error('Não foi possível carregar a preferência de tema.', error);
-        document.documentElement.dataset.theme = window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'gray'
-          : 'light';
+        document.documentElement.dataset.theme = 'light';
       }
     </script>
     <!-- ÍCONE DA ABA DO NAVEGADOR -->

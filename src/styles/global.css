@@ -111,6 +111,7 @@
   --menu-indicador: #a9c3da;
   --sombra-cartao: rgb(40 78 112 / 12%);
 }
+/* Tema cinza pausado:
 :root[data-theme='gray'] {
   color-scheme: dark;
   --azul: #d4cec3;
@@ -136,30 +137,31 @@
   --menu-indicador: #c4bdb1;
   --sombra-cartao: rgb(0 0 0 / 24%);
 }
+*/
 :root[data-theme='blue'] {
   color-scheme: dark;
-  --azul: #91b5d4;
-  --texto: #e1eaf2;
-  --borda: #354a5e;
-  --verde: #82c7ad;
-  --fundo: #111b26;
-  --superficie: #1a2938;
-  --superficie-suave: #203548;
-  --texto-secundario: #b4c3d1;
-  --texto-titulo: #b9d5ed;
-  --link: #a9c9e5;
-  --link-hover: #d1e5f5;
-  --foco: #b9d5ed;
-  --botao-hover: #37648b;
-  --faixa-marca: #172635;
-  --faixa-navegacao: #142c40;
-  --faixa-rodape: #203b54;
-  --texto-rodape: #f5f8fc;
-  --texto-rodape-suave: #d5e0ea;
+  --azul: #e1e4e2;
+  --texto: #e1e4e2;
+  --borda: #3b4c58;
+  --verde: #8fc2b3;
+  --fundo: #1b2832;
+  --superficie: #24333e;
+  --superficie-suave: #2d3e4a;
+  --texto-secundario: #bdc5c4;
+  --texto-titulo: #e8e8e2;
+  --link: #d6dfdc;
+  --link-hover: #f0efe8;
+  --foco: #a8d5c8;
+  --botao-hover: #42647b;
+  --faixa-marca: #202f39;
+  --faixa-navegacao: #284358;
+  --faixa-rodape: #203b4d;
+  --texto-rodape: #e1e4e2;
+  --texto-rodape-suave: #bdc5c4;
   --destaque-rodape: #a8d5c8;
-  --menu-hover: #d9e3ed;
-  --menu-indicador: #a9c3da;
-  --sombra-cartao: rgb(0 0 0 / 24%);
+  --menu-hover: #e2e4df;
+  --menu-indicador: #a8d5c8;
+  --sombra-cartao: rgb(0 0 0 / 20%);
 }
 html { scroll-behavior: smooth; }
 img { max-width: 100%; height: auto; }

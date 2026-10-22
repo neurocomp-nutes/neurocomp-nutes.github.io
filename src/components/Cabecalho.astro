@@ -11,6 +11,24 @@ const links = [
 ---
 
 <header class="cabecalho">
+  <!-- Filtro antigo da logo, usado apenas pelo tema cinza:
+  <svg class="filtros-marca" aria-hidden="true" focusable="false">
+    <filter id="uepb-cinza">
+      <feColorMatrix
+        in="SourceGraphic"
+        type="matrix"
+        values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 -5 0 0 2 0"
+        result="mascara-escura"
+      />
+      <feFlood flood-color="#fff" result="branco" />
+      <feComposite in="branco" in2="mascara-escura" operator="in" result="branco-sobre-preto" />
+      <feMerge>
+        <feMergeNode in="SourceGraphic" />
+        <feMergeNode in="branco-sobre-preto" />
+      </feMerge>
+    </filter>
+  </svg>
+  -->
   <div class="faixa-marcas">
     <div class="marcas-interno">
       <a class="marca-neurocomp" href="#inicio" aria-label="NeuroComp, início">
@@ -28,7 +46,7 @@ const links = [
 
       <div class="instituicoes" aria-label="Instituições: NUTES e Universidade Estadual da Paraíba">
         <div class="marcas-institucionais">
-          <img src="/imgs/logos/nutes_logo.png" alt="NUTES" width="170" height="72" />
+          <img class="logo-nutes" src="/imgs/logos/nutes_logo.png" alt="NUTES" width="72" height="48" />
           <span class="divisor-marcas" aria-hidden="true"></span>
           <span class="marca-uepb" role="img" aria-label="Universidade Estadual da Paraíba"></span>
         </div>
@@ -55,10 +73,9 @@ const links = [
         <button
           class="alternar-tema"
           type="button"
-          aria-label="Escolher tema"
-          aria-expanded="false"
-          aria-controls="opcoes-tema"
-          title="Escolher tema"
+          aria-label="Mudar para tema azul"
+          aria-pressed="false"
+          title="Mudar para tema azul"
         >
           <svg class="icone-tema ideia" viewBox="0 0 44 40" aria-hidden="true" focusable="false">
             <path d="M19 8c-2-3-6-3-9-1-3 2-3 5-2 8-3 2-4 6-1 9-1 4 2 7 6 7 1 4 5 5 8 3V9m0 0c2-3 6-4 9-2 3 2 3 5 2 8 3 2 4 6 1 9 1 4-2 7-6 7-1 4-5 5-8 3"></path>
@@ -66,22 +83,19 @@ const links = [
             <circle cx="36" cy="7" r="3"></circle>
             <path d="M36 1v2m6 4h-2m-8 0h-2m8 4h-4"></path>
           </svg>
+          <!-- Ícone antigo do tema cinza:
           <svg class="icone-tema sono" viewBox="0 0 44 40" aria-hidden="true" focusable="false">
             <path d="M19 8c-2-3-6-3-9-1-3 2-3 5-2 8-3 2-4 6-1 9-1 4 2 7 6 7 1 4 5 5 8 3V9m0 0c2-3 6-4 9-2 3 2 3 5 2 8 3 2 4 6 1 9 1 4-2 7-6 7-1 4-5 5-8 3"></path>
             <path d="M13 13c2 1 2 4 0 5m12-8v22m5-17c-2 1-2 4 0 5m-14 3c2 0 3 2 2 4m12-4c-2 0-3 2-2 4"></path>
             <path d="M32 5h8l-8 6h8m-7 4h6l-6 5h6"></path>
           </svg>
+          -->
           <svg class="icone-tema atividade" viewBox="0 0 44 40" aria-hidden="true" focusable="false">
             <path d="M19 8c-2-3-6-3-9-1-3 2-3 5-2 8-3 2-4 6-1 9-1 4 2 7 6 7 1 4 5 5 8 3V9m0 0c2-3 6-4 9-2 3 2 3 5 2 8 3 2 4 6 1 9 1 4-2 7-6 7-1 4-5 5-8 3"></path>
             <path d="M13 13c2 1 2 4 0 5m12-8v22m5-17c-2 1-2 4 0 5m-14 3c2 0 3 2 2 4m12-4c-2 0-3 2-2 4"></path>
             <path d="m36 3 1.4 3.6L41 8l-3.6 1.4L36 13l-1.4-3.6L31 8l3.6-1.4L36 3Z"></path>
           </svg>
         </button>
-        <div class="opcoes-tema" id="opcoes-tema" role="group" aria-label="Opções de tema" hidden>
-          <button type="button" data-theme-choice="light" aria-pressed="false"><span class="amostra-tema claro"></span>Claro</button>
-          <button type="button" data-theme-choice="gray" aria-pressed="false"><span class="amostra-tema cinza"></span>Cinza</button>
-          <button type="button" data-theme-choice="blue" aria-pressed="false"><span class="amostra-tema azul"></span>Azul</button>
-        </div>
       </div>
     </div>
   </div>
@@ -104,53 +118,25 @@ const links = [
   });
 
   const themeToggle = document.querySelector<HTMLButtonElement>('.alternar-tema');
-  const themeOptions = document.querySelector<HTMLDivElement>('.opcoes-tema');
-  const themeChoices = document.querySelectorAll<HTMLButtonElement>('[data-theme-choice]');
-  const syncThemePicker = () => {
+  const syncThemeToggle = () => {
     const theme = document.documentElement.dataset.theme ?? 'light';
-    themeToggle?.classList.toggle('tema-cinza', theme === 'gray');
     themeToggle?.classList.toggle('tema-azul', theme === 'blue');
-    themeChoices.forEach((choice) => {
-      choice.setAttribute('aria-pressed', String(choice.dataset.themeChoice === theme));
-    });
+    const nextTheme = theme === 'blue' ? 'claro' : 'azul';
+    themeToggle?.setAttribute('aria-label', `Mudar para tema ${nextTheme}`);
+    themeToggle?.setAttribute('title', `Mudar para tema ${nextTheme}`);
+    themeToggle?.setAttribute('aria-pressed', String(theme === 'blue'));
   };
 
-  const closeThemeOptions = (restoreFocus = false) => {
-    if (!themeOptions || themeOptions.hidden) return;
-    themeOptions.hidden = true;
-    themeToggle?.setAttribute('aria-expanded', 'false');
-    if (restoreFocus) themeToggle?.focus();
-  };
-
-  syncThemePicker();
+  syncThemeToggle();
   themeToggle?.addEventListener('click', () => {
-    const isOpen = themeToggle.getAttribute('aria-expanded') === 'true';
-    themeOptions!.hidden = isOpen;
-    themeToggle.setAttribute('aria-expanded', String(!isOpen));
-  });
-  themeChoices.forEach((choice) => {
-    choice.addEventListener('click', () => {
-      const nextTheme = choice.dataset.themeChoice;
-      if (nextTheme !== 'light' && nextTheme !== 'gray' && nextTheme !== 'blue') return;
-
-      document.documentElement.dataset.theme = nextTheme;
-      syncThemePicker();
-      closeThemeOptions();
-      themeToggle?.focus();
-      try {
-        localStorage.setItem('neurocomp-theme', nextTheme);
-      } catch (error) {
-        console.error('Não foi possível salvar a preferência de tema.', error);
-      }
-    });
-  });
-  document.addEventListener('pointerdown', (event) => {
-    if (event.target instanceof Node && !event.target.closest('.seletor-tema')) {
-      closeThemeOptions();
+    const nextTheme = document.documentElement.dataset.theme === 'blue' ? 'light' : 'blue';
+    document.documentElement.dataset.theme = nextTheme;
+    syncThemeToggle();
+    try {
+      localStorage.setItem('neurocomp-theme', nextTheme);
+    } catch (error) {
+      console.error('Não foi possível salvar a preferência de tema.', error);
     }
-  });
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') closeThemeOptions(true);
   });
 </script>
 
@@ -185,7 +171,7 @@ const links = [
     justify-content: center;
     gap: 20px;
   }
-  .marcas-institucionais img { width: 144px; height: 54px; object-fit: contain; }
+  .marcas-institucionais img { width: 72px; height: 48px; margin-inline-end: 10px; object-fit: contain; }
   .marcas-institucionais .marca-uepb {
     width: 54px;
     height: 54px;
@@ -260,67 +246,46 @@ const links = [
   }
   .alternar-tema:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
   .icone-tema { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
-  .icone-tema.sono, .icone-tema.atividade { display: none; }
-  :global(html[data-theme='gray']) .icone-tema.ideia,
-  :global(html[data-theme='blue']) .icone-tema.ideia { display: none; }
+  /* Seletor antigo do ícone do tema cinza:
+  .icone-tema.sono { display: none; }
+  :global(html[data-theme='gray']) .icone-tema.ideia { display: none; }
   :global(html[data-theme='gray']) .icone-tema.sono { display: block; }
+  */
+  .icone-tema.atividade { display: none; }
+  :global(html[data-theme='blue']) .icone-tema.ideia { display: none; }
   :global(html[data-theme='blue']) .icone-tema.atividade { display: block; }
-  :global(html[data-theme='gray']) .marcas-institucionais img:first-child,
   :global(html[data-theme='blue']) .marcas-institucionais img:first-child {
-    padding: 4px;
-    border-radius: 4px;
-    background: #fff;
+    filter: grayscale(1) brightness(0) invert(0.82);
   }
-  .opcoes-tema {
-    position: absolute;
-    top: calc(100% + 10px);
-    right: 0;
-    display: grid;
-    min-width: 150px;
-    gap: 4px;
-    padding: 8px;
-    border: 1px solid var(--borda);
-    border-radius: 12px;
-    background: var(--superficie);
-    box-shadow: 0 10px 28px rgb(0 0 0 / 20%);
+  /* Estilo antigo da logo da UEPB no tema cinza:
+  :global(html[data-theme='gray']) .marcas-institucionais .marca-uepb {
+    background-color: transparent;
+    background-image: url('/imgs/logos/uepb.png');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    -webkit-mask: none;
+    mask: none;
+    filter: url(#uepb-cinza);
   }
-  .opcoes-tema[hidden] { display: none; }
-  .opcoes-tema button {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    min-height: 40px;
-    padding: 8px 10px;
-    border: 0;
-    border-radius: 7px;
-    background: transparent;
-    color: var(--texto);
-    font: inherit;
-    font-size: 0.9rem;
-    text-align: left;
-    cursor: pointer;
-  }
-  .opcoes-tema button:hover,
-  .opcoes-tema button[aria-pressed='true'] {
-    background: var(--superficie-suave);
-  }
-  .opcoes-tema button[aria-pressed='true'] { font-weight: 700; }
-  .opcoes-tema button:focus-visible { outline: 2px solid var(--foco); outline-offset: 1px; }
-  .amostra-tema { width: 16px; height: 16px; border: 1px solid var(--borda); border-radius: 50%; }
-  .amostra-tema.claro { background: linear-gradient(135deg, #fff 50%, #edf4fa 50%); }
-  .amostra-tema.cinza { background: linear-gradient(135deg, #252421 50%, #3b3833 50%); }
-  .amostra-tema.azul { background: linear-gradient(135deg, #172635 50%, #284e70 50%); }
-
+  .filtros-marca { position: absolute; width: 0; height: 0; overflow: hidden; }
+  */
   @media (max-width: 760px) {
-    .marcas-interno { min-height: 120px; gap: 20px; padding: 16px 20px; }
-    .marca-neurocomp { gap: 10px; }
-    .marca-neurocomp img { width: 72px; height: 64px; }
-    .marca-neurocomp small { max-width: 190px; font-size: 0.68rem; }
+    .marcas-interno {
+      min-height: 0;
+      flex-direction: column-reverse;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 20px;
+    }
+    .marca-neurocomp { justify-content: center; gap: 10px; text-align: center; }
+    .marca-neurocomp img { width: 90px; height: 76px; }
+    .marca-neurocomp small { max-width: 190px; font-size: 0.72rem; }
+    .instituicoes { align-self: center; }
     .marcas-institucionais { gap: 12px; }
-    .marcas-institucionais img { width: 118px; height: 46px; }
-    .marcas-institucionais .marca-uepb { width: 46px; height: 46px; }
-    .divisor-marcas { height: 36px; }
+    .marcas-institucionais img { width: 56px; height: 38px; margin-inline-end: 8px; }
+    .marcas-institucionais .marca-uepb { width: 44px; height: 44px; }
+    .divisor-marcas { height: 34px; }
     .navegacao-interna { padding: 0; }
     .seletor-tema { top: 10px; right: 12px; transform: none; }
     .menu > summary {
@@ -348,13 +313,7 @@ const links = [
   }
 
   @media (max-width: 480px) {
-    .marcas-interno { flex-direction: column; align-items: flex-start; gap: 12px; padding-block: 14px; }
-    .marca-neurocomp { width: 100%; }
-    .instituicoes { align-self: flex-end; }
-    .marcas-institucionais { gap: 10px; }
-    .marcas-institucionais img { width: 104px; height: 42px; }
-    .marcas-institucionais .marca-uepb { width: 42px; height: 42px; }
-    .divisor-marcas { height: 32px; }
+    .marcas-interno { padding-block: 14px; }
     .menu ul { grid-template-columns: 1fr; }
   }
 
