@@ -125,16 +125,34 @@ const links = [
   .menu:not([open]) > nav { display: block; }
   .menu ul { display: flex; justify-content: center; gap: 4px; margin: 0; padding: 0; list-style: none; }
   .menu a {
+    position: relative;
     display: block;
     padding: 17px 16px;
     color: #fff;
     font-size: 0.94rem;
     font-weight: 700;
     text-decoration: none;
-    text-underline-offset: 5px;
-    transition: background-color 160ms ease;
+    transition: color 180ms ease;
   }
-  .menu a:hover { color: #fff; background: #163b59; text-decoration: underline; }
+  .menu a::after {
+    position: absolute;
+    right: 16px;
+    bottom: 10px;
+    left: 16px;
+    height: 2px;
+    background: #a9c3da;
+    content: '';
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 220ms ease;
+  }
+  .menu a:hover {
+    color: #d9e3ed;
+  }
+  .menu a:hover::after,
+  .menu a:focus-visible::after {
+    transform: scaleX(1);
+  }
   .menu a:focus-visible, .menu > summary:focus-visible { outline-color: #fff; }
 
   @media (max-width: 760px) {
@@ -167,7 +185,8 @@ const links = [
     .menu[open] .icone-menu span:last-child { transform: translateY(-8px) rotate(-45deg); }
     .menu nav { padding: 0 20px 16px; }
     .menu ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; }
-    .menu a { padding: 13px 14px; border-radius: 5px; text-align: center; }
+    .menu a { padding: 13px 14px; text-align: center; }
+    .menu a::after { right: 14px; bottom: 7px; left: 14px; }
   }
 
   @media (max-width: 480px) {
@@ -182,6 +201,6 @@ const links = [
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .menu a, .icone-menu span { transition: none; }
+    .menu a, .menu a::after, .icone-menu span { transition: none; }
   }
 </style>
