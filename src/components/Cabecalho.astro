@@ -26,9 +26,12 @@ const links = [
         </span>
       </a>
 
-      <div class="instituicoes" aria-label="Instituições parceiras">
-        <img src="/imgs/logos/nutes_logo.png" alt="NUTES" width="170" height="72" />
-        <img src="/imgs/logos/uepb.png" alt="Universidade Estadual da Paraíba" width="78" height="78" />
+      <div class="instituicoes" aria-label="Instituições: NUTES e Universidade Estadual da Paraíba">
+        <div class="marcas-institucionais">
+          <img src="/imgs/logos/nutes_logo.png" alt="NUTES" width="170" height="72" />
+          <span class="divisor-marcas" aria-hidden="true"></span>
+          <span class="marca-uepb" role="img" aria-label="Universidade Estadual da Paraíba"></span>
+        </div>
       </div>
     </div>
   </div>
@@ -93,8 +96,27 @@ const links = [
   .marca-neurocomp img { width: 96px; height: 76px; object-fit: contain; }
   .marca-neurocomp strong { display: block; font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.1; }
   .marca-neurocomp small { display: block; margin-top: 6px; color: #526a7d; font-size: 0.78rem; letter-spacing: 0.08em; }
-  .instituicoes { display: flex; align-items: center; justify-content: flex-end; gap: 28px; }
-  .instituicoes img { max-height: 76px; width: auto; object-fit: contain; }
+  .instituicoes { display: flex; flex: 0 0 auto; align-items: center; }
+  .marcas-institucionais {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+  .marcas-institucionais img { width: 144px; height: 54px; object-fit: contain; }
+  .marcas-institucionais .marca-uepb {
+    width: 54px;
+    height: 54px;
+    background-color: var(--azul);
+    -webkit-mask: url('/imgs/logos/uepb.png') center / contain no-repeat;
+    mask: url('/imgs/logos/uepb.png') center / contain no-repeat;
+  }
+  .divisor-marcas {
+    width: 2px;
+    height: 40px;
+    border-radius: 2px;
+    background: var(--azul);
+  }
 
   .faixa-navegacao { background: var(--azul); }
   .navegacao-interna { max-width: 1160px; margin-inline: auto; padding-inline: 24px; }
@@ -120,9 +142,10 @@ const links = [
     .marca-neurocomp { gap: 10px; }
     .marca-neurocomp img { width: 72px; height: 64px; }
     .marca-neurocomp small { max-width: 190px; font-size: 0.68rem; }
-    .instituicoes { gap: 14px; }
-    .instituicoes img { max-width: 100px; max-height: 58px; }
-    .instituicoes img:last-child { max-width: 54px; }
+    .marcas-institucionais { gap: 12px; }
+    .marcas-institucionais img { width: 118px; height: 46px; }
+    .marcas-institucionais .marca-uepb { width: 46px; height: 46px; }
+    .divisor-marcas { height: 36px; }
     .navegacao-interna { padding: 0; }
     .menu > summary {
       display: flex;
@@ -150,9 +173,11 @@ const links = [
   @media (max-width: 480px) {
     .marcas-interno { flex-direction: column; align-items: flex-start; gap: 12px; padding-block: 14px; }
     .marca-neurocomp { width: 100%; }
-    .instituicoes { width: 100%; justify-content: flex-end; gap: 18px; }
-    .instituicoes img { max-height: 48px; }
-    .instituicoes img:last-child { max-width: 44px; }
+    .instituicoes { align-self: flex-end; }
+    .marcas-institucionais { gap: 10px; }
+    .marcas-institucionais img { width: 104px; height: 42px; }
+    .marcas-institucionais .marca-uepb { width: 42px; height: 42px; }
+    .divisor-marcas { height: 32px; }
     .menu ul { grid-template-columns: 1fr; }
   }
 
