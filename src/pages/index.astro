@@ -5,6 +5,7 @@ import LayoutPrincipal from '../layouts/LayoutPrincipal.astro';
 import Secao from '../components/Secao.astro';
 import CartaoMembro from '../components/CartaoMembro.astro';
 import { membros, gruposEquipe } from '../data/membros';
+import { membrosNaoHumanos } from '../data/membrosNaoHumanos';
 
 // <-------------------AGRUPAMENTO DA EQUIPE------------------->
 // O agrupamento acontece no build, sem JavaScript adicional no navegador.
@@ -208,9 +209,12 @@ const noticias = [
       <div class="pendente"><p>Lista de antigos membros em preparação.</p></div>
     </Secao>
     <Secao id="nao-humanos" titulo="Membros não humanos" etiqueta="Além da pesquisa">
-      <!-- O requisito informa o nome Marlboro; aguardamos foto e descrição. -->
-      <h3>Marlboro</h3>
-      <div class="pendente"><p>Foto e apresentação em breve.</p></div>
+      <!-- Reutiliza o cartão com os dados próprios dos membros não humanos. -->
+      <div class="grade-membros">
+        {membrosNaoHumanos.map((membro) => (
+          <CartaoMembro membro={membro} nivelTitulo="h3" />
+        ))}
+      </div>
     </Secao>
   </div>
 </LayoutPrincipal>

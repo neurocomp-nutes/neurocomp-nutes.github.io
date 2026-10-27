@@ -4,10 +4,16 @@
 import type { Membro } from '../data/membros';
 
 interface Props {
-  membro: Membro;
+  // O cartão exibe o perfil; a classificação em grupos é responsabilidade da página.
+  membro: Omit<Membro, 'grupo'>;
+  // Humanos estão abaixo de uma subseção (h3); não humanos ficam direto na seção (h2).
+  nivelTitulo?: 'h3' | 'h4';
 }
 
-const { membro } = Astro.props;
+const { membro, nivelTitulo = 'h4' } = Astro.props;
+const Titulo = nivelTitulo;
+const TituloInteresses = nivelTitulo === 'h3' ? 'h4' : 'h5';
+const temContatos = membro.lattes || membro.github || membro.site || membro.email;
 const tituloId = `membro-${membro.id}`;
 ---
 
@@ -26,27 +32,29 @@ const tituloId = `membro-${membro.id}`;
   />
 
   <div class="informacoes">
-    <h4 id={tituloId}>{membro.nome}</h4>
+    <Titulo class="nome-membro" id={tituloId}>{membro.nome}</Titulo>
 
     <!-- INTERESSES DE PESQUISA -->
-    <h5>Interesses de pesquisa</h5>
+    <TituloInteresses class="titulo-interesses">Interesses de pesquisa</TituloInteresses>
     <ul class="interesses">
       {membro.interesses.map((interesse) => <li>{interesse}</li>)}
     </ul>
 
     <!-- LINKS ACADÊMICOS E CONTATO -->
     <!-- Campos opcionais só produzem links quando estão preenchidos. -->
-    <div class="contatos">
-      {membro.lattes && <a href={membro.lattes}>Lattes</a>}
-      {membro.github && <a href={membro.github}>GitHub</a>}
-      {membro.site && <a href={membro.site}>Site pessoal</a>}
-      {membro.email && (
-        <a class="email" href={`mailto:${membro.email}`}>
-          <span>E-mail institucional</span>
-          {membro.email}
-        </a>
+    {temContatos && (
+      <div class="contatos">
+        {membro.lattes && <a href={membro.lattes}>Lattes</a>}
+        {membro.github && <a href={membro.github}>GitHub</a>}
+        {membro.site && <a href={membro.site}>Site pessoal</a>}
+        {membro.email && (
+          <a class="email" href={`mailto:${membro.email}`}>
+            <span>E-mail institucional</span>
+            {membro.email}
+          </a>
       )}
     </div>
+    )}
   </div>
 </article>
 
@@ -73,8 +81,8 @@ const tituloId = `membro-${membro.id}`;
   .informacoes { padding: 24px; }
 
   /* <-------------------TEXTOS E INTERESSES-------------------> */
-  h4 { margin: 0 0 24px; color: var(--texto-titulo); font-size: 1.5rem; }
-  h5 { margin: 0 0 12px; font-size: 1rem; }
+  .nome-membro { margin: 0 0 24px; color: var(--texto-titulo); font-size: 1.5rem; }
+  .titulo-interesses { margin: 0 0 12px; font-size: 1rem; }
   .interesses { margin: 0 0 24px; padding-left: 20px; }
   .interesses li + li { margin-top: 4px; }
 
