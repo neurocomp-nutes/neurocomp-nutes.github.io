@@ -73,18 +73,34 @@ const noticias = [
 
 <LayoutPrincipal>
   <!-- APRESENTAÇÃO DO NEUROCOMP -->
-  <section id="inicio" aria-labelledby="titulo-inicio" class="apresentacao">
-    <div>
-      <p class="etiqueta">Neurociência Computacional · NUTES | UEPB</p>
+  <section
+    id="inicio"
+    aria-labelledby="titulo-inicio"
+    class="apresentacao"
+  >
+    <div class="conteudo-capa">
+      <!-- Logo oficial -->
+      <img
+        class="logo-capa"
+        src="/imgs/logos/oficial_brain_no_background.png"
+        alt="Símbolo do NeuroComp"
+        width="1536"
+        height="1024"
+      />
+
+
       <h1 id="titulo-inicio">NeuroComp</h1>
-      <p>Grupo de Pesquisa em Neurociência Computacional afiliado ao NUTES | UEPB.</p>
+
+      <p class="descricao-capa">
+        Grupo de Pesquisa em Neurociência Computacional
+        afiliado ao NUTES | UEPB.
+      </p>
+
       <div class="acoes">
         <a class="botao" href="#pesquisa">Conheça nossas pesquisas</a>
         <a class="botao" href="#equipe">Nossa equipe</a>
       </div>
     </div>
-    <!-- Logo oficial -->
-    <img src="/imgs/logos/oficial_brain_no_background.png" alt="Símbolo do NeuroComp" width="1536" height="1024" fetchpriority="high" />
   </section>
 
   <!-- NOTÍCIAS EM DESTAQUE -->
@@ -403,10 +419,86 @@ const noticias = [
   }
 
   /* <-------------------APRESENTAÇÃO-------------------> */
-  .apresentacao { display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 32px; background: var(--superficie-suave); }
-  .apresentacao h1 { font-size: clamp(2.5rem, 7vw, 4.5rem); letter-spacing: -0.04em; }
-  .apresentacao img { width: 100%; }
-  .link-projetos { margin-top: 24px; margin-bottom: 0; }
+  .apresentacao {
+    /* Centraliza o conjunto de logo, textos e botões. */
+    display: grid;
+    place-items: center;
+    min-height: 620px;
+    padding: 64px 24px;
+    text-align: center;
+
+    /* A primeira camada fica sobre a segunda: escurecimento sobre a foto. */
+    background-image:
+      linear-gradient(
+        rgb(12 29 45 / 72%),
+        rgb(12 29 45 / 82%)
+      ),
+      url('/imgs/fachadanutes.png');
+
+    /* Preenche a capa sem deformar a fotografia. */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Limita a largura do conteúdo para facilitar a leitura. */
+  .conteudo-capa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 760px;
+  }
+
+  /* A logo mantém suas proporções originais. */
+  .apresentacao .logo-capa {
+    width: clamp(160px, 22vw, 240px);
+    height: auto;
+  }
+
+  .apresentacao h1 {
+    margin: 0;
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    letter-spacing: -0.04em;
+    color: #fff;
+  }
+
+  /* Mantém o texto legível sobre a fotografia nos dois temas. */
+  .apresentacao .etiqueta {
+    margin: 0;
+    color: #cce8df;
+  }
+
+  .apresentacao .descricao-capa {
+    max-width: 55ch;
+    margin: 0;
+    color: #f0f4f8;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+  }
+
+  .apresentacao .acoes {
+    justify-content: center;
+    margin-top: 12px;
+  }
+
+  .apresentacao .botao {
+    background: #284e70;
+    color: #fff;
+    border: 1px solid #aec9df;
+  }
+
+  .apresentacao .botao:hover {
+    background: #193b58;
+  }
+
+  .apresentacao .botao:focus-visible {
+    outline-color: #fff;
+  }
+
+  .link-projetos { 
+    margin-top: 24px; margin-bottom: 0; 
+  }
 
   /* <-------------------NOTÍCIAS E CARROSSÉIS-------------------> */
   .destaques { margin: 8px 0 40px; }
@@ -467,8 +559,10 @@ const noticias = [
     .cartao-noticia { flex-basis: calc((100% - 20px) / 2); }
   }
   @media (max-width: 700px) {
-    .apresentacao { grid-template-columns: 1fr; }
-    .apresentacao img { max-width: 280px; justify-self: center; }
+    /* Reduz os espaços da capa em telas pequenas. */
+    .apresentacao { min-height: 520px; padding: 40px 20px;}
+    .conteudo-capa {gap: 16px;}
+    
     .slide-destaque { grid-template-columns: 1fr; }
     .slide-destaque > img { min-height: 0; aspect-ratio: 3 / 2; }
     .texto-destaque { padding: 22px; }
