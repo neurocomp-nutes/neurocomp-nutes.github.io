@@ -427,21 +427,25 @@ const noticias = [
     /* Centraliza o conjunto de logo, textos e botões. */
     display: grid;
     place-items: center;
-    min-height: 620px;
-    padding: 64px 24px;
+    min-height: clamp(500px, 62vh, 560px);
+    padding: 48px 24px;
     text-align: center;
 
-    /* A primeira camada fica sobre a segunda: escurecimento sobre a foto. */
+    /* Clareia a foto com um véu sutil, preservando o contraste do conteúdo. */
     background-image:
       linear-gradient(
-        rgb(12 29 45 / 72%),
-        rgb(12 29 45 / 82%)
+        rgb(255 255 255 / 8%),
+        rgb(255 255 255 / 8%)
+      ),
+      linear-gradient(
+        rgb(12 29 45 / 64%),
+        rgb(12 29 45 / 64%)
       ),
       url('/imgs/fachadanutes.png');
 
     /* Preenche a capa sem deformar a fotografia. */
     background-size: cover;
-    background-position: center;
+    background-position: center 48%;
     background-repeat: no-repeat;
   }
 
@@ -457,7 +461,7 @@ const noticias = [
 
   /* A logo mantém suas proporções originais. */
   .apresentacao .logo-capa {
-    width: clamp(160px, 22vw, 240px);
+    width: clamp(150px, 18vw, 200px);
     height: auto;
   }
 
@@ -564,8 +568,8 @@ const noticias = [
   }
   @media (max-width: 700px) {
     /* Reduz os espaços da capa em telas pequenas. */
-    .apresentacao { min-height: 520px; padding: 40px 20px;}
-    .conteudo-capa {gap: 16px;}
+    .apresentacao { min-height: 460px; padding: 36px 20px; }
+    .conteudo-capa { gap: 16px; }
     
     .slide-destaque { grid-template-columns: 1fr; }
     .slide-destaque > img { min-height: 0; aspect-ratio: 3 / 2; }
