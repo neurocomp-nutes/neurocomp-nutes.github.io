@@ -29,10 +29,10 @@ import Rodape from '../components/Rodape.astro';
     <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
     <Cabecalho />
     <!-- CONTEÚDO PRINCIPAL -->
-    <main id="conteudo" tabindex="-1">
+    <main id="conteudo" class="capa-ampla" tabindex="-1">
       <!-- O slot recebe as seções escritas no index.astro. -->
       <slot />
     </main>
-    <Rodape />
+    <Rodape />  
   </body>
 </html>
