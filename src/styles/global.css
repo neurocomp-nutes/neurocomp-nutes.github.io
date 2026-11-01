@@ -168,6 +168,115 @@ img { max-width: 100%; height: auto; }
 section, footer { scroll-margin-top: 24px; }
 h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.2; margin: 0 0 16px; color: var(--texto-titulo); }
 h3 { margin-top: 0; }
+
+/* <-------------------PRÉ-CARREGAMENTO-------------------> */
+.preloader {
+  display: none;
+}
+
+.preloader-ativo .preloader {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
+    max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  background: var(--fundo);
+  color: var(--texto-titulo);
+  opacity: 1;
+  transition: opacity 350ms ease, visibility 350ms ease;
+}
+
+.preloader-ativo .preloader-saindo {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.preloader-logo {
+  width: 150px;
+  height: 100px;
+  object-fit: contain;
+  animation: preloader-pulso 1.6s ease-in-out infinite;
+}
+
+.preloader-nome {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.preloader-mensagem {
+  color: var(--texto-secundario);
+  font-size: 0.9rem;
+}
+
+.preloader-progresso {
+  width: 120px;
+  height: 3px;
+  margin-top: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--borda);
+}
+
+.preloader-progresso span {
+  display: block;
+  width: 40%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--verde);
+  animation: preloader-progresso 1.2s ease-in-out infinite;
+}
+
+@media (max-width: 480px) {
+  .preloader-logo {
+    width: clamp(100px, 30vw, 135px);
+    height: clamp(67px, 20vw, 90px);
+  }
+
+  .preloader-nome {
+    font-size: clamp(1.25rem, 6vw, 1.5rem);
+  }
+
+  .preloader-progresso {
+    width: min(120px, 60vw);
+  }
+}
+
+@media (max-height: 420px) {
+  .preloader-ativo .preloader {
+    gap: 4px;
+  }
+
+  .preloader-logo {
+    width: 100px;
+    height: 67px;
+  }
+
+  .preloader-progresso {
+    margin-top: 6px;
+  }
+}
+
+@keyframes preloader-pulso {
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes preloader-progresso {
+  from { transform: translateX(-110%); }
+  to { transform: translateX(260%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader-ativo .preloader { transition: none; }
+  .preloader-logo, .preloader-progresso span { animation: none; }
+}
+
 /* O link aparece ao receber foco e permite saltar a navegação. */
 .pular-conteudo { position: absolute; left: 16px; top: -100px; background: var(--superficie); padding: 12px; z-index: 10; }
 .pular-conteudo:focus { top: 16px; }

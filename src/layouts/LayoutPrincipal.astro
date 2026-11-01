@@ -22,10 +22,45 @@ import Rodape from '../components/Rodape.astro';
         document.documentElement.dataset.theme = 'light';
       }
     </script>
+    <script is:inline>
+      document.documentElement.classList.add('preloader-ativo');
+
+      const ocultarPreloader = () => {
+        const preloader = document.querySelector('.preloader');
+        if (!preloader || preloader.classList.contains('preloader-saindo')) return;
+        preloader.classList.add('preloader-saindo');
+        window.setTimeout(() => {
+          preloader.remove();
+          document.documentElement.classList.remove('preloader-ativo');
+        }, 400);
+      };
+
+      const inicioPreloader = Date.now();
+      const finalizarCarregamento = () => {
+        window.setTimeout(ocultarPreloader, Math.max(0, 500 - (Date.now() - inicioPreloader)));
+      };
+
+      window.addEventListener('load', finalizarCarregamento, { once: true });
+      window.setTimeout(ocultarPreloader, 8000);
+      if (document.readyState === 'complete') finalizarCarregamento();
+    </script>
     <!-- ÍCONE DA ABA DO NAVEGADOR -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=neurocomp-logo-1" />
   </head>
   <body>
+    <div class="preloader" role="status" aria-live="polite" aria-label="Carregando o site NeuroComp">
+      <img
+        class="preloader-logo"
+        src="/imgs/logos/oficial_brain_no_background.png"
+        alt=""
+        width="180"
+        height="120"
+        fetchpriority="high"
+      />
+      <span class="preloader-nome">NeuroComp</span>
+      <span class="preloader-mensagem">Carregando...</span>
+      <span class="preloader-progresso" aria-hidden="true"><span></span></span>
+    </div>
     <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
     <Cabecalho />
     <!-- CONTEÚDO PRINCIPAL -->
