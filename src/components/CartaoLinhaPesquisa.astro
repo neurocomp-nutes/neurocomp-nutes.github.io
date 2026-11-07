@@ -4,7 +4,7 @@ import type { LinhaPesquisa } from '../data/linhasPesquisa';
 interface Props { linha: LinhaPesquisa }
 const { linha } = Astro.props;
 ---
-<a class="cartao-linha" href={`/pesquisa/${linha.slug}/`} target="_blank" rel="noopener noreferrer" aria-label={`Conheça a linha ${linha.nome} (abre em nova aba)`}>
+<a class="cartao-linha" href={`/linha-pesquisa/${linha.slug}/`} target="_blank" rel="noopener noreferrer" aria-label={`Conheça a linha ${linha.nome}`}>
   <div class="imagem-linha"><img src={linha.logo} alt="" width="1440" height="1100" loading="lazy" /></div>
   <div class="texto-linha">
     <p class="etiqueta">Pesquisa e extensão</p>
