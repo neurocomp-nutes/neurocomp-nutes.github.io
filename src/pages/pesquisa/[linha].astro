@@ -1,0 +1,110 @@
+---
+// <-------------------ROTAS E DADOS------------------->
+import LayoutPrincipal from '../../layouts/LayoutPrincipal.astro';
+import Secao from '../../components/Secao.astro';
+import CartaoMembro from '../../components/CartaoMembro.astro';
+import { linhasPesquisa, type LinhaPesquisa } from '../../data/linhasPesquisa';
+import { membros } from '../../data/membros';
+export function getStaticPaths() {
+  return linhasPesquisa.map((linha) => ({ params: { linha: linha.slug }, props: { linha } }));
+}
+interface Props { linha: LinhaPesquisa }
+const { linha } = Astro.props;
+// Interrompe o build em caso de id inválido, evitando omitir um integrante silenciosamente.
+const equipe = linha.membrosIds.map((id) => {
+  const membro = membros.find((pessoa) => pessoa.id === id);
+  if (!membro) throw new Error(`Membro não encontrado na linha ${linha.slug}: ${id}`);
+  return membro;
+});
+const secoes = [ ['apresentacao', 'Apresentação'], ['pesquisa', 'Pesquisa'], ['extensao', 'Extensão'], ['instrumentos', 'Instrumentos'], ['equipe', 'Equipe'], ['contato', 'Contato'] ];
+---
+<LayoutPrincipal titulo={`${linha.nome} | Linhas de pesquisa | NeuroComp`} descricao={linha.resumo}>
+  {/* <-------------------CAPA E NAVEGAÇÃO LOCAL-------------------> */}
+  <section id="inicio" class="capa-linha" aria-labelledby="nome-linha">
+    <a class="voltar" href="/#pesquisa">← Todas as linhas de pesquisa</a>
+    <div class="capa-conteudo">
+      <div>
+        <p class="etiqueta">NeuroComp · Pesquisa e extensão</p>
+        <h1 id="nome-linha">{linha.nome}</h1>
+        <p class="subtitulo">{linha.subtitulo}</p>
+        <p>{linha.resumo}</p>
+        <a href="#equipe">Conheça a equipe ↓</a>
+      </div>
+      <div class="logo-linha"><img src={linha.logo} alt={`Logo da linha ${linha.nome}`} width="1440" height="1100" /></div>
+    </div>
+  </section>
+  <nav class="atalhos" aria-label={`Seções da linha ${linha.nome}`}>
+    {secoes.map(([id, nome]) => <a href={`#${id}`}>{nome}</a>)}
+  </nav>
+  {/* <-------------------APRESENTAÇÃO, PESQUISA E EXTENSÃO-------------------> */}
+  <Secao id="apresentacao" titulo="Conheça a linha" etiqueta="Apresentação">
+    <p>{linha.apresentacao}</p>
+  </Secao>
+  <Secao id="pesquisa" titulo="O que investigamos" etiqueta="Pesquisa">
+    <div class="eixos">{linha.pesquisas.map((eixo, indice) => (
+      <article><span class="numero" aria-hidden="true">0{indice + 1}</span><h3>{eixo.titulo}</h3><p>{eixo.descricao}</p></article>
+    ))}</div>
+  </Secao>
+  <Secao id="extensao" titulo="Ciência junto à comunidade" etiqueta="Extensão">
+    <p>{linha.extensao}</p>
+    <a href="#contato">Fale com o NeuroComp sobre esta linha →</a>
+  </Secao>
+  {/* <-------------------RECURSOS UTILIZADOS-------------------> */}
+  <Secao id="instrumentos" titulo="Equipamentos e instrumentos" etiqueta="Como estudamos">
+    <p>Avaliações, tecnologias e medidas que fazem parte do trabalho da linha.</p>
+    <div class="instrumentos">{linha.instrumentos.map((item) => (
+      <article class="instrumento">
+        <figure>
+          <img src={`/imgs/linhas_de_pesquisa/instrumentos/${item.imagem}`} alt={item.credito ? item.nome : `Ilustração conceitual: ${item.nome}`} width="400" height="270" loading="lazy" />
+          <figcaption>{item.credito ? <a href={item.fonte} target="_blank" rel="noopener noreferrer">{item.credito} ↗</a> : 'Ilustração conceitual'}</figcaption>
+        </figure>
+        <div class="corpo-instrumento">
+          <p class="etiqueta">{item.categoria}</p><h3>{item.nome}</h3><p>{item.descricao}</p>
+          {item.fonte && !item.credito && <a class="fonte" href={item.fonte} target="_blank" rel="noopener noreferrer">Saiba mais na fonte ↗</a>}
+        </div>
+      </article>
+    ))}</div>
+  </Secao>
+  {/* <-------------------EQUIPE E CONTATO COMPARTILHADO-------------------> */}
+  <Secao id="equipe" titulo={`Quem faz a linha ${linha.nome}`} etiqueta="Equipe">
+    <div class="equipe-linha">{equipe.map((membro) => <CartaoMembro membro={membro} nivelTitulo="h3" />)}</div>
+  </Secao>
+  <!-- O contato institucional aparece uma única vez, no rodapé do layout. -->
+</LayoutPrincipal>
+<style>
+  /* <-------------------CAPA E ATALHOS-------------------> */
+  .capa-linha { margin-top: 32px; background: var(--superficie-suave); }
+  .voltar { font-size: .9rem; }
+  .capa-conteudo { display: grid; grid-template-columns: 1.3fr 1fr; gap: 36px; align-items: center; margin-top: 32px; }
+  h1 { font-size: clamp(2.8rem, 6vw, 4.8rem); }
+  .subtitulo { color: var(--verde); font-size: 1.2rem; font-weight: 700; }
+  .logo-linha { background: #edf4fa; border-radius: 24px; padding: 20px; }
+  .logo-linha img { display: block; width: 100%; max-height: 300px; object-fit: contain; }
+  .atalhos { display: flex; gap: 8px; flex-wrap: wrap; }
+  .atalhos a { padding: 10px 16px; border: 1px solid var(--borda); border-radius: 24px; text-decoration: none; background: var(--superficie); }
+  .atalhos a:hover { background: var(--superficie-suave); }
+  /* <-------------------GRADES E CARTÕES-------------------> */
+  .eixos, .instrumentos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .eixos article { border-top: 2px solid var(--verde); padding-top: 20px; }
+  .numero { display: block; color: var(--verde); font-size: .9rem; font-weight: 700; margin-bottom: 12px; }
+  .eixos p, .instrumento p { font-size: 1rem; }
+  .instrumento { border: 1px solid var(--borda); border-radius: 14px; overflow: hidden; min-width: 0; }
+  figure { margin: 0; background: #edf4fa; }
+  figure img { display: block; width: 100%; height: 190px; object-fit: contain; }
+  figcaption { padding: 8px 12px; font-size: .72rem; color: #506477; }
+  figcaption a { color: #284e70; }
+  .corpo-instrumento { padding: 20px; }
+  .corpo-instrumento .etiqueta { font-size: .72rem; margin-bottom: 8px; }
+  .corpo-instrumento h3 { line-height: 1.4; }
+  .corpo-instrumento p:last-child { margin-bottom: 0; }
+  .fonte { font-size: .85rem; }
+  .equipe-linha { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 24px; align-items: start; }
+  /* <-------------------ADAPTAÇÃO PARA TELAS MENORES-------------------> */
+  @media (max-width: 900px) { .instrumentos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 650px) {
+    .capa-conteudo, .eixos, .instrumentos { grid-template-columns: 1fr; }
+    .logo-linha { max-width: 320px; justify-self: center; }
+    .capa-conteudo { gap: 24px; }
+    .atalhos a { font-size: .85rem; padding: 8px 12px; }
+  }
+</style>
