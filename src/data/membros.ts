@@ -86,6 +86,21 @@ export const membros: Membro[] = [
     site: 'https://tiagosoutorocha-neuro.github.io/',
   },
   {
+    id: 'sabrina-de-figueiredo-souto',
+    nome: 'Sabrina de Figueiredo Souto',
+    grupo: 'gerencia',
+    interesses: [
+      'Neurociência da Dor',
+      'Modelagem de Processos Cognitivos',
+      'Neurociência Computacional',
+    ],
+    foto: '/imgs/people/sabrina.jpeg',
+    posicaoFoto: 'center 30%',
+    lattes: 'http://lattes.cnpq.br/0595422027989879',
+    email: 'sabrinadfs@servidor.uepb.edu.br',
+    github: 'https://github.com/sabrinadfs',
+  },
+  {
     id: 'rennan-fernandes',
     nome: 'Rennan Fernandes da Silva',
     grupo: 'graduandos',
