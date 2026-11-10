@@ -3,6 +3,8 @@
 // O layout cuida da estrutura HTML; esta página organiza o conteúdo.
 import LayoutPrincipal from '../layouts/LayoutPrincipal.astro';
 import Secao from '../components/Secao.astro';
+import CartaoLinhaPesquisa from '../components/CartaoLinhaPesquisa.astro';
+import { linhasPesquisa } from '../data/linhasPesquisa';
 import CartaoMembro from '../components/CartaoMembro.astro';
 import { membros, gruposEquipe } from '../data/membros';
 import { membrosNaoHumanos } from '../data/membrosNaoHumanos';
@@ -179,7 +181,10 @@ const noticias = [
 
   <!-- LINHAS DE PESQUISA E PROJETOS -->
   <Secao id="pesquisa" titulo="Linhas de pesquisa e projetos" etiqueta="O que investigamos">
-    <div class="pendente"><p>Estamos preparando a apresentação das linhas de pesquisa e dos projetos do grupo.</p></div>
+    <p>Conheça as linhas que conectam nossas pesquisas às ações de extensão na comunidade.</p>
+    <div class="grade">
+      {linhasPesquisa.map((linha) => <CartaoLinhaPesquisa linha={linha} />)}
+    </div>
     <p class="link-projetos"><a href="https://github.com/neurocomp-nutes">Conheça nossos projetos no GitHub →</a></p>
   </Secao>
 
@@ -441,7 +446,7 @@ const noticias = [
         rgb(12 29 45 / 64%),
         rgb(12 29 45 / 64%)
       ),
-      url('/imgs/fachadanutes.png');
+      url('/imgs/fachada_nutes.png');
 
     /* Preenche a capa sem deformar a fotografia. */
     background-size: cover;

@@ -1,0 +1,33 @@
+---
+// <-------------------DADOS DO CARTÃO------------------->
+import type { LinhaPesquisa } from '../data/linhasPesquisa';
+interface Props { linha: LinhaPesquisa }
+const { linha } = Astro.props;
+---
+<a class="cartao-linha" href={`/linha-pesquisa/${linha.slug}/`} target="_blank" rel="noopener noreferrer" aria-label={`Conheça a linha ${linha.nome}`}>
+  <div class="imagem-linha"><img src={linha.logo} alt="" width="1440" height="1100" loading="lazy" /></div>
+  <div class="texto-linha">
+    <p class="etiqueta">Pesquisa e extensão</p>
+    <h3>{linha.nome}</h3>
+    <p>{linha.resumo}</p>
+    <ul>{linha.temas.map((tema) => <li>{tema}</li>)}</ul>
+    <span class="conhecer">Conheça a linha <span aria-hidden="true">↗</span></span>
+    <small>Abre em nova aba</small>
+  </div>
+</a>
+<style>
+  /* <-------------------APRESENTAÇÃO E INTERAÇÃO-------------------> */
+  .cartao-linha { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--borda); border-radius: 16px; background: var(--superficie); color: var(--texto); text-decoration: none; font-weight: 400; transition: border-color 180ms, box-shadow 180ms; }
+  .cartao-linha:hover { border-color: var(--verde); box-shadow: 0 8px 24px var(--sombra-cartao); }
+  .imagem-linha { display: grid; place-items: center; background: #edf4fa; padding: 24px; }
+  .imagem-linha img { height: 220px; width: 100%; object-fit: contain; }
+  .texto-linha { padding: 28px; display: flex; flex-direction: column; flex: 1; }
+  h3 { font-size: 2rem; color: var(--texto-titulo); margin: 0 0 12px; }
+  p { font-size: 1rem; margin-bottom: 18px; }
+  .etiqueta { font-size: .75rem; margin-bottom: 8px; }
+  ul { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0 0 24px; list-style: none; }
+  li { font-size: .8rem; padding: 4px 10px; background: var(--superficie-suave); border-radius: 20px; }
+  .conhecer { color: var(--link); font-weight: 700; margin-top: auto; }
+  small { color: var(--texto-secundario); margin-top: 4px; }
+  @media (prefers-reduced-motion: reduce) { .cartao-linha { transition: none; } }
+</style>

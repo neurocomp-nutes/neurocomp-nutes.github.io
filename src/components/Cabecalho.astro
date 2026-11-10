@@ -1,4 +1,8 @@
 ---
+// <-------------------NAVEGAÇÃO ENTRE PÁGINAS------------------->
+// Nas páginas internas, os links institucionais retornam à página inicial.
+const naPaginaInicial = Astro.url.pathname === '/';
+const destinoInicio = naPaginaInicial ? '#inicio' : '/#inicio';
 const links = [
   { href: '#inicio', texto: 'Início' },
   { href: '#sobre', texto: 'Sobre' },
@@ -31,7 +35,7 @@ const links = [
   -->
   <div class="faixa-marcas">
     <div class="marcas-interno">
-      <a class="marca-neurocomp" href="#inicio" aria-label="NeuroComp, início">
+      <a class="marca-neurocomp" href={destinoInicio} aria-label="NeuroComp, início">
         <img
           src="/imgs/logos/oficial_brain_no_background.png"
           alt=""
@@ -64,7 +68,7 @@ const links = [
         <nav aria-label="Navegação principal">
           <ul>
             {links.map((link) => (
-              <li><a href={link.href}>{link.texto}</a></li>
+              <li><a href={naPaginaInicial || link.href === '#contato' ? link.href : `/${link.href}`}>{link.texto}</a></li>
             ))}
           </ul>
         </nav>
