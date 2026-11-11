@@ -45,10 +45,12 @@ const destaquesNoticias = [
 const noticias = [
   {
     imagem: '/imgs/noticias/neurociencia.svg',
-    alt: 'Ilustração abstrata de neurônios conectados',
-    categoria: 'Neurociência',
-    titulo: 'Novidades do laboratório',
-    descricao: 'Estamos preparando atualizações sobre as atividades e iniciativas do NeuroComp.',
+    alt: 'Ilustração de neurônios conectados para a notícia sobre a premiação no CCNeC',
+    categoria: 'Premiação · CCNeC',
+    titulo: 'Premiação tripla no XVII CCNeC',
+    descricao: '1º e 2º lugares e menção honrosa entre 85 trabalhos.',
+    hashtags: '#NeuroComp #NUTES #UEPB',
+    href: '/noticias/premiacao-tripla-ccnec/',
   },
   {
     imagem: '/imgs/noticias/pesquisa.svg',
@@ -56,6 +58,7 @@ const noticias = [
     categoria: 'Pesquisa',
     titulo: 'Pesquisas em destaque',
     descricao: 'Em breve, compartilharemos notícias sobre pesquisas e produção científica do grupo.',
+    emBreve: true,
   },
   {
     imagem: '/imgs/noticias/conexoes.svg',
@@ -63,6 +66,7 @@ const noticias = [
     categoria: 'Eventos',
     titulo: 'Eventos e encontros',
     descricao: 'Acompanhe este espaço para conhecer eventos e atividades do laboratório.',
+    emBreve: true,
   },
   {
     imagem: '/imgs/noticias/pesquisa.svg',
@@ -70,6 +74,7 @@ const noticias = [
     categoria: 'Comunidade',
     titulo: 'Ciência em colaboração',
     descricao: 'Em breve, novidades sobre a comunidade e as parcerias do NeuroComp.',
+    emBreve: true,
   },
 ];
 ---
@@ -165,7 +170,9 @@ const noticias = [
             <span class="categoria">{noticia.categoria}</span>
             <h4>{noticia.titulo}</h4>
             <p>{noticia.descricao}</p>
-            <span class="em-breve">Em breve</span>
+            {noticia.hashtags && <p class="hashtags-noticia">{noticia.hashtags}</p>}
+            {noticia.href && <a class="link-noticia" href={noticia.href}>Leia a notícia completa →</a>}
+            {noticia.emBreve && <span class="em-breve">Em breve</span>}
           </div>
         </article>
       ))}
@@ -559,11 +566,15 @@ const noticias = [
   .indicador[aria-current="true"] { width: 25px; border-radius: 8px; background: var(--verde); }
   .cabecalho-noticias { margin-bottom: 18px; }
   .viewport-noticias { gap: 20px; padding: 2px 2px 8px; }
-  .cartao-noticia { flex: 0 0 calc((100% - 40px) / 3); min-width: 0; overflow: hidden; scroll-snap-align: start; border: 1px solid var(--borda); border-radius: 12px; background: var(--superficie); }
+  .cartao-noticia { position: relative; flex: 0 0 calc((100% - 40px) / 3); min-width: 0; overflow: hidden; scroll-snap-align: start; border: 1px solid var(--borda); border-radius: 12px; background: var(--superficie); }
   .cartao-noticia > img { display: block; width: 100%; aspect-ratio: 8 / 5; object-fit: cover; }
   .corpo-noticia { display: flex; min-height: 210px; flex-direction: column; align-items: flex-start; padding: 20px; }
   .corpo-noticia h4 { margin: 8px 0; color: var(--texto-titulo); font-size: 1.1rem; line-height: 1.3; }
   .corpo-noticia p { font-size: 0.9rem; }
+  .hashtags-noticia { margin-top: 12px !important; color: var(--verde) !important; font-size: 0.8rem !important; overflow-wrap: anywhere; }
+  .link-noticia { position: static; z-index: 1; display: inline-block; margin-top: auto; padding-top: 16px; color: var(--verde); font-size: 0.85rem; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+  .link-noticia::after { position: absolute; inset: 0; content: ''; cursor: pointer; }
+  .link-noticia:focus-visible::after { outline: 3px solid var(--verde); outline-offset: -4px; }
   .em-breve { margin-top: auto; padding-top: 16px; color: var(--verde); font-size: 0.8rem; font-weight: 700; }
   .dica-carrossel { margin: 12px 0 0; color: var(--texto-secundario); font-size: 0.82rem; text-align: right; }
 

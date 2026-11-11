@@ -1,0 +1,291 @@
+---
+import LayoutPrincipal from '../../layouts/LayoutPrincipal.astro';
+
+const instagramUrl = '';
+---
+
+<LayoutPrincipal
+  titulo="Premiação tripla no XVII CCNeC | NeuroComp"
+  descricao="O grupo NeuroComp, vinculado ao NUTES da UEPB, conquista o 1º e o 2º lugares e uma menção honrosa no XVII Congresso de Neurociência Cognitiva e Comportamento."
+>
+  <section class="capa-noticia" aria-labelledby="titulo-noticia">
+    <a class="voltar" href="/#noticias">← Todas as notícias</a>
+    <div class="capa-conteudo">
+      <div>
+        <p class="etiqueta">NeuroComp · NUTES · UEPB</p>
+        <div class="titulo-noticia">
+          <svg class="icone-trofeu" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+            <path d="M13 7h22v12a11 11 0 0 1-22 0V7Z" />
+            <path d="M13 12H6v5a9 9 0 0 0 9 9m20-14h7v5a9 9 0 0 1-9 9M24 30v7m-8 4h16m-14-4h12" />
+          </svg>
+          <h1 id="titulo-noticia">Premiação tripla para o NeuroComp, do NUTES da UEPB</h1>
+        </div>
+        <p class="subtitulo">Reconhecimento no XVII Congresso de Neurociência Cognitiva e Comportamento (CCNeC) da UFPB, em João Pessoa.</p>
+        <p>Entre 85 trabalhos científicos submetidos ao evento, conquistamos o 1º e o 2º lugares, além de uma menção honrosa.</p>
+      </div>
+      <div class="imagem-noticia">
+        <img
+          src="/imgs/noticias/neurociencia.svg"
+          alt="Ilustração de neurônios conectados"
+          width="720"
+          height="480"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section id="premiacoes" class="secao-premiacoes" aria-labelledby="titulo-premiacoes">
+    <p class="etiqueta">Resultados</p>
+    <h2 id="titulo-premiacoes">Três trabalhos reconhecidos</h2>
+    <div class="lista-premiacoes">
+      <article class="premiacao">
+        <span class="classificacao">1º lugar</span>
+        <h3>Predição de crises epilépticas com inteligência artificial</h3>
+        <p>Pesquisa de Danilo Pedro da Silva Valério e colaboradores.</p>
+      </article>
+      <article class="premiacao">
+        <span class="classificacao">2º lugar</span>
+        <h3>Detecção da doença de Alzheimer com aprendizado de máquina</h3>
+        <p>Estudo de Tiago Souto Rocha e colaboradores.</p>
+      </article>
+      <article class="premiacao">
+        <span class="classificacao">Menção honrosa</span>
+        <h3>Sono, sintomas depressivos e desempenho cognitivo em idosos</h3>
+        <p>Pesquisa de Aline Macedo Brito e colaboradores.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="fechamento-noticia" aria-labelledby="titulo-fechamento">
+    <p class="etiqueta">Uma conquista coletiva</p>
+    <h2 id="titulo-fechamento">Ciência, inovação e saúde</h2>
+    <p>Essas conquistas são motivo de orgulho e reforçam o compromisso do NeuroComp, grupo vinculado ao NUTES da UEPB, com a ciência, a inovação e o desenvolvimento de tecnologias voltadas à saúde.</p>
+    <p>Parabéns aos nossos pesquisadores por mais esse reconhecimento!</p>
+  </section>
+
+  <section class="secao-instagram" aria-labelledby="titulo-instagram">
+    <p class="etiqueta">Compartilhe</p>
+    <h2 id="titulo-instagram">Acompanhe no Instagram</h2>
+    <div class="instagram-post">
+      <svg class="icone-instagram" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle class="ponto-instagram" cx="17.5" cy="6.5" r="1" />
+      </svg>
+      <div>
+        <strong>Publicação do NeuroComp</strong>
+        {instagramUrl ? (
+          <a href={instagramUrl} target="_blank" rel="noopener noreferrer">
+            Acessar a postagem ↗
+          </a>
+        ) : (
+          <span class="instagram-pendente">Link da postagem será adicionado aqui</span>
+        )}
+      </div>
+    </div>
+    <p class="hashtags">#NeuroComp #NUTES #UEPB #Neurociência #PesquisaCientífica #Inovação #InteligênciaArtificial</p>
+  </section>
+</LayoutPrincipal>
+
+<style>
+  .capa-noticia {
+    margin-top: 32px;
+    background: var(--superficie);
+  }
+
+  .voltar {
+    font-size: 0.9rem;
+  }
+
+  .titulo-noticia {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .titulo-noticia h1 {
+    margin: 0 0 16px;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+  }
+
+  .icone-trofeu {
+    display: block;
+    width: 46px;
+    height: 46px;
+    color: #b77a20;
+    fill: #f3c66b;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.5;
+  }
+
+  .capa-conteudo {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 36px;
+    align-items: center;
+    margin-top: 32px;
+  }
+
+  h1 {
+    font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+  }
+
+  .subtitulo {
+    color: var(--verde);
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .imagem-noticia {
+    padding: 20px;
+    border-radius: 24px;
+    background: #edf4fa;
+  }
+
+  .imagem-noticia img {
+    display: block;
+    width: 100%;
+    max-height: 300px;
+    object-fit: contain;
+  }
+
+  .secao-premiacoes {
+    margin-top: 32px;
+    background: var(--superficie);
+  }
+
+  .lista-premiacoes {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .premiacao {
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: var(--superficie);
+    box-shadow: 0 8px 20px rgb(40 78 112 / 6%);
+  }
+
+  .classificacao {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--superficie-suave);
+    color: var(--verde);
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .premiacao h3 {
+    margin: 0 0 10px;
+    color: var(--texto-titulo);
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .premiacao p {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+  }
+
+  .fechamento-noticia,
+  .secao-instagram {
+    margin-top: 24px;
+    background: var(--superficie);
+  }
+
+  .fechamento-noticia h2,
+  .secao-instagram h2 {
+    margin-top: 0;
+    color: var(--texto-titulo);
+  }
+
+  .instagram-pendente {
+    color: var(--texto-secundario);
+    font-weight: 700;
+  }
+
+  .instagram-post {
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: var(--superficie-suave);
+  }
+
+  .icone-instagram {
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    fill: none;
+    stroke: #c13584;
+    stroke-width: 2;
+  }
+
+  .icone-instagram .ponto-instagram {
+    fill: #c13584;
+    stroke: none;
+  }
+
+  .instagram-post > div {
+    display: grid;
+    gap: 4px;
+  }
+
+  .instagram-post strong {
+    color: var(--texto-titulo);
+  }
+
+  .instagram-post a {
+    width: fit-content;
+  }
+
+  .hashtags {
+    margin-top: 20px;
+    margin-bottom: 0;
+    color: var(--verde);
+    font-size: 0.9rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 650px) {
+    .capa-conteudo,
+    .lista-premiacoes {
+      grid-template-columns: 1fr;
+    }
+
+    .capa-conteudo {
+      gap: 24px;
+    }
+
+    .titulo-noticia {
+      gap: 6px;
+    }
+
+    .titulo-noticia h1 {
+      font-size: clamp(1.8rem, 6.5vw, 2.6rem);
+    }
+
+    .icone-trofeu {
+      width: 42px;
+      height: 42px;
+    }
+
+    .imagem-noticia {
+      max-width: 320px;
+      justify-self: center;
+    }
+  }
+</style>
