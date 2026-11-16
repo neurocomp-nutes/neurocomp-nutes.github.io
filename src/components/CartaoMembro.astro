@@ -44,16 +44,61 @@ const tituloId = `membro-${membro.id}`;
     <!-- Campos opcionais só produzem links quando estão preenchidos. -->
     {temContatos && (
       <div class="contatos">
-        {membro.lattes && <a href={membro.lattes}>Lattes</a>}
-        {membro.github && <a href={membro.github}>GitHub</a>}
-        {membro.site && <a href={membro.site}>Site pessoal</a>}
-        {membro.email && (
-          <a class="email" href={`mailto:${membro.email}`}>
-            <span>E-mail institucional</span>
-            {membro.email}
+        {membro.lattes && (
+          <a
+            class="contato contato-lattes"
+            href={membro.lattes}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Currículo Lattes (abre em nova aba)"
+            title="Currículo Lattes"
+          >
+            <img src="/imgs/logo-lattes.png" alt="" aria-hidden="true" width="30" height="30" />
           </a>
-      )}
-    </div>
+        )}
+        {membro.github && (
+          <a
+            class="contato contato-github"
+            href={membro.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub (abre em nova aba)"
+            title="GitHub"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.3 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z" />
+            </svg>
+          </a>
+        )}
+        {membro.site && (
+          <a
+            class="contato contato-site"
+            href={membro.site}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Site pessoal (abre em nova aba)"
+            title="Site pessoal"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="9" />
+              <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+            </svg>
+          </a>
+        )}
+        {membro.email && (
+          <a
+            class="contato contato-email"
+            href={`mailto:${membro.email}`}
+            aria-label={`Enviar e-mail para ${membro.email}`}
+            title={`E-mail: ${membro.email}`}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="m3 6 9 7 9-7" />
+            </svg>
+          </a>
+        )}
+      </div>
     )}
   </div>
 </article>
@@ -87,10 +132,35 @@ const tituloId = `membro-${membro.id}`;
   .interesses li + li { margin-top: 4px; }
 
   /* <-------------------CONTATOS-------------------> */
-  .contatos { display: flex; flex-wrap: wrap; gap: 12px 20px; }
-  .contatos a { padding-block: 6px; }
-  .email { flex-basis: 100%; overflow-wrap: anywhere; font-size: 0.9rem; }
-  .email span { display: block; }
+  .contatos { display: flex; flex-wrap: wrap; gap: 8px; }
+  .contato {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--borda);
+    border-radius: 50%;
+    background: var(--borda);
+    color: var(--link);
+    text-decoration: none;
+    box-shadow: 0 2px 6px var(--sombra-cartao);
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  }
+  .contato svg, .contato img { width: 30px; height: 30px; }
+  .contato svg { fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
+  .contato-github { color: #24292f; }
+  .contato-github svg { fill: currentColor; stroke: none; }
+  .contato-site { color: #2563eb; }
+  .contato-email { color: #c5221f; }
+  :global(html[data-theme='gray']) .contato-github, :global(html[data-theme='blue']) .contato-github { color: #f0f6fc; }
+  :global(html[data-theme='gray']) .contato-site, :global(html[data-theme='blue']) .contato-site { color: #60a5fa; }
+  :global(html[data-theme='gray']) .contato-email, :global(html[data-theme='blue']) .contato-email { color: #ff7b72; }
+  :global(html[data-theme='blue']) .contato { background: var(--botao-hover); }
+  .contato:hover { transform: translateY(-2px); background: var(--superficie); box-shadow: 0 6px 14px var(--sombra-cartao); }
+  :global(html[data-theme='blue']) .contato:hover { background: var(--botao-hover); }
+  .contato:focus-visible { outline: 3px solid var(--foco); outline-offset: 2px; }
 
   /* <-------------------DESTAQUE E ACESSIBILIDADE-------------------> */
   /* O conteúdo permanece visível em mouse, teclado e telas de toque. */
@@ -108,6 +178,7 @@ const tituloId = `membro-${membro.id}`;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .cartao-membro { transition: none; }
+    .cartao-membro, .contato { transition: none; }
+    .contato:hover { transform: none; }
   }
 </style>
