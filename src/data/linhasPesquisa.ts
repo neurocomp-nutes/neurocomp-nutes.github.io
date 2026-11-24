@@ -74,6 +74,7 @@ export interface LinhaPesquisa {
   situacaoAtual?: string;
   sublinhas?: Sublinha[];
   visualizacoes?: Midia[];
+  galeriaExtensao?: Midia[];
   projetoExtensao?: ProjetoExtensao;
   colaboradores?: Colaborador[];
   extensao: string;
@@ -291,6 +292,33 @@ export const linhasPesquisa: LinhaPesquisa[] = [
       'Desenvolvimento de ações de educação em saúde sobre neurociência da dor, autocuidado e adesão terapêutica.',
     ],
     situacaoAtual: 'O projeto encontra-se em fase de execução, com atividades de avaliação e acompanhamento dos pacientes, coleta e organização de dados clínicos e neurofisiológicos, análise das informações obtidas e elaboração de materiais informativos. Também está em andamento o acompanhamento da evolução dos pacientes submetidos às intervenções terapêuticas, buscando integrar os resultados das avaliações clínicas aos registros neurofisiológicos.',
+    galeriaExtensao: [
+      {
+        src: '/imgs/linhas_de_pesquisa/dor/extensao/aplicacao_tavns.jpeg',
+        alt: 'Participante deitada durante aplicação de estimulação auricular, com dispositivo taVNS e celular ao lado mostrando dados fisiológicos.',
+        legenda: 'Aplicação de taVNS com monitoramento de dados fisiológicos',
+      },
+      {
+        src: '/imgs/linhas_de_pesquisa/dor/extensao/coleta_extensao_eeg.jpeg',
+        alt: 'Participante usando headset de EEG enquanto integrantes da equipe acompanham a coleta por um notebook.',
+        legenda: 'Registro de EEG acompanhado pela equipe',
+      },
+      {
+        src: '/imgs/linhas_de_pesquisa/dor/extensao/coleta_extensao_eeg2.jpeg',
+        alt: 'Participante usando headset de EEG em frente a uma integrante da equipe e a um notebook durante a coleta.',
+        legenda: 'Coleta de EEG em ambiente clínico',
+      },
+      {
+        src: '/imgs/linhas_de_pesquisa/dor/extensao/momento_conversa_com_paciente.jpeg',
+        alt: 'Paciente conversa com profissionais de saúde ao redor de uma mesa em uma clínica.',
+        legenda: 'Conversa com paciente durante atividade de extensão',
+      },
+      {
+        src: '/imgs/linhas_de_pesquisa/dor/extensao/monitorament_hrv_durante_tavns.jpeg',
+        alt: 'Dispositivo NeuroDyn e celular exibindo um gráfico de variabilidade cardíaca durante o monitoramento da VFC.',
+        legenda: 'Monitoramento da VFC durante aplicação de taVNS',
+      },
+    ],
     extensao: 'A atuação de extensão reúne avaliação por questionários, registros fisiológicos e atividades com neuromodulação. Os instrumentos ajudam a acompanhar diferentes dimensões da experiência da dor e a aproximar a pesquisa das demandas da comunidade.',
     membros: [
       {

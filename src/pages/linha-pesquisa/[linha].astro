@@ -161,7 +161,9 @@ const secoes = [
         </article>
       )}
       {linha.extensao && <p class="texto-extensao">{linha.extensao}</p>}
-      <a href="#contato">Fale com o NeuroComp sobre esta linha →</a>
+      {linha.galeriaExtensao && linha.galeriaExtensao.length > 0 && (
+        <Galeria titulo="Fotos das atividades de extensão" itens={linha.galeriaExtensao} />
+      )}
     </Secao>
   )}
 
