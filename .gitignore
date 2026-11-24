@@ -28,3 +28,7 @@ pnpm-debug.log*
 
 # local docs
 docs/
+!public/docs/
+!public/docs/linhas_de_pesquisa/
+!public/docs/linhas_de_pesquisa/memoria/
+!public/docs/linhas_de_pesquisa/memoria/**
