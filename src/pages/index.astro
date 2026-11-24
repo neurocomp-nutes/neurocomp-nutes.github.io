@@ -44,6 +44,14 @@ const destaquesNoticias = [
 
 const noticias = [
   {
+    imagem: '/imgs/linhas_de_pesquisa/memoria/extensao_cidade_madura/01_montagem_headset.jpeg',
+    alt: 'Dois integrantes da equipe, de jaleco, ajustam um headset de EEG em uma participante sentada em poltrona.',
+    categoria: 'Extensão',
+    titulo: 'Lançamento do projeto de extensão Cidade Madura',
+    descricao: 'Em 24 de agosto de 2026, começou a coleta de dados do Cidade Madura, projeto de extensão que leva monitoramento cognitivo a pessoas idosas do condomínio. A iniciativa combina avaliação cognitiva, neurotecnologia acessível e promoção da saúde, aproximando universidade e comunidade.',
+    href: '/linha-pesquisa/memoria/#extensao',
+  },
+  {
     imagem: '/imgs/noticias/neurociencia.svg',
     alt: 'Ilustração abstrata de neurônios conectados',
     categoria: 'Neurociência',
@@ -160,13 +168,26 @@ const noticias = [
     <div class="viewport viewport-noticias" data-carousel-viewport="noticias" aria-label="Notícias do NeuroComp" tabindex="0">
       {noticias.map((noticia) => (
         <article class="cartao-noticia">
-          <img src={noticia.imagem} alt={noticia.alt} width="480" height="300" loading="lazy" />
-          <div class="corpo-noticia">
-            <span class="categoria">{noticia.categoria}</span>
-            <h4>{noticia.titulo}</h4>
-            <p>{noticia.descricao}</p>
-            <span class="em-breve">Em breve</span>
-          </div>
+          {noticia.href ? (
+            <a class="link-cartao-noticia" href={noticia.href}>
+              <img src={noticia.imagem} alt={noticia.alt} width="480" height="300" loading="lazy" />
+              <div class="corpo-noticia">
+                <span class="categoria">{noticia.categoria}</span>
+                <h4>{noticia.titulo}</h4>
+                <p>{noticia.descricao}</p>
+              </div>
+            </a>
+          ) : (
+            <>
+              <img src={noticia.imagem} alt={noticia.alt} width="480" height="300" loading="lazy" />
+              <div class="corpo-noticia">
+                <span class="categoria">{noticia.categoria}</span>
+                <h4>{noticia.titulo}</h4>
+                <p>{noticia.descricao}</p>
+                <span class="em-breve">Em breve</span>
+              </div>
+            </>
+          )}
         </article>
       ))}
     </div>
@@ -556,7 +577,10 @@ const noticias = [
   .cabecalho-noticias { margin-bottom: 18px; }
   .viewport-noticias { gap: 20px; padding: 2px 2px 8px; }
   .cartao-noticia { flex: 0 0 calc((100% - 40px) / 3); min-width: 0; overflow: hidden; scroll-snap-align: start; border: 1px solid var(--borda); border-radius: 12px; background: var(--superficie); }
-  .cartao-noticia > img { display: block; width: 100%; aspect-ratio: 8 / 5; object-fit: cover; }
+  .cartao-noticia > img, .link-cartao-noticia > img { display: block; width: 100%; aspect-ratio: 8 / 5; object-fit: cover; }
+  .link-cartao-noticia { display: block; height: 100%; color: inherit; text-decoration: none; }
+  .link-cartao-noticia:hover h4 { color: var(--verde); }
+  .link-cartao-noticia:focus-visible { outline: 3px solid var(--azul); outline-offset: -3px; }
   .corpo-noticia { display: flex; min-height: 210px; flex-direction: column; align-items: flex-start; padding: 20px; }
   .corpo-noticia h4 { margin: 8px 0; color: var(--texto-titulo); font-size: 1.1rem; line-height: 1.3; }
   .corpo-noticia p { font-size: 0.9rem; }
