@@ -45,7 +45,7 @@ const secoes = [
 <LayoutPrincipal titulo={`${linha.nome} | Linhas de pesquisa | NeuroComp`} descricao={linha.resumo}>
   {/* <-------------------CAPA E NAVEGAÇÃO LOCAL-------------------> */}
   <section id="inicio" class="capa-linha" aria-labelledby="nome-linha">
-    <a class="voltar" href="/#pesquisa">← Todas as linhas de pesquisa</a>
+    <a class="voltar" href="/#pesquisa"><span aria-hidden="true">←</span> Todas as linhas de pesquisa</a>
     <div class="capa-conteudo">
       <div>
         <p class="etiqueta">NeuroComp · Pesquisa e extensão</p>
@@ -222,7 +222,7 @@ const secoes = [
 <style>
   /* <-------------------CAPA E ATALHOS-------------------> */
   .capa-linha { margin-top: 32px; background: var(--superficie-suave); }
-  .voltar { font-size: .9rem; }
+  .voltar { display: inline-block; padding-block: 4px 8px; font-size: .9rem; text-underline-offset: 4px; }
   .capa-conteudo { display: grid; grid-template-columns: 1.3fr 1fr; gap: 36px; align-items: center; margin-top: 32px; }
   h1 { font-size: clamp(2.8rem, 6vw, 4.8rem); }
   .subtitulo { color: var(--verde); font-size: 1.2rem; font-weight: 700; }

@@ -53,10 +53,12 @@ const noticias = [
   },
   {
     imagem: '/imgs/noticias/neurociencia.svg',
-    alt: 'Ilustração abstrata de neurônios conectados',
-    categoria: 'Neurociência',
-    titulo: 'Novidades do laboratório',
-    descricao: 'Estamos preparando atualizações sobre as atividades e iniciativas do NeuroComp.',
+    alt: 'Ilustração de neurônios conectados para a notícia sobre a premiação no CCNeC',
+    categoria: 'Premiação · CCNeC',
+    titulo: 'Premiação tripla no XVII CCNeC',
+    descricao: '1º e 2º lugares e menção honrosa entre 85 trabalhos.',
+    hashtags: '#NeuroComp #NUTES #UEPB',
+    href: '/noticias/premiacao-tripla-ccnec/',
   },
   {
     imagem: '/imgs/noticias/pesquisa.svg',
@@ -64,6 +66,7 @@ const noticias = [
     categoria: 'Pesquisa',
     titulo: 'Pesquisas em destaque',
     descricao: 'Em breve, compartilharemos notícias sobre pesquisas e produção científica do grupo.',
+    emBreve: true,
   },
   {
     imagem: '/imgs/noticias/conexoes.svg',
@@ -71,6 +74,7 @@ const noticias = [
     categoria: 'Eventos',
     titulo: 'Eventos e encontros',
     descricao: 'Acompanhe este espaço para conhecer eventos e atividades do laboratório.',
+    emBreve: true,
   },
   {
     imagem: '/imgs/noticias/pesquisa.svg',
@@ -78,6 +82,7 @@ const noticias = [
     categoria: 'Comunidade',
     titulo: 'Ciência em colaboração',
     descricao: 'Em breve, novidades sobre a comunidade e as parcerias do NeuroComp.',
+    emBreve: true,
   },
 ];
 ---
@@ -168,26 +173,15 @@ const noticias = [
     <div class="viewport viewport-noticias" data-carousel-viewport="noticias" aria-label="Notícias do NeuroComp" tabindex="0">
       {noticias.map((noticia) => (
         <article class="cartao-noticia">
-          {noticia.href ? (
-            <a class="link-cartao-noticia" href={noticia.href}>
-              <img src={noticia.imagem} alt={noticia.alt} width="480" height="300" loading="lazy" />
-              <div class="corpo-noticia">
-                <span class="categoria">{noticia.categoria}</span>
-                <h4>{noticia.titulo}</h4>
-                <p>{noticia.descricao}</p>
-              </div>
-            </a>
-          ) : (
-            <>
-              <img src={noticia.imagem} alt={noticia.alt} width="480" height="300" loading="lazy" />
-              <div class="corpo-noticia">
-                <span class="categoria">{noticia.categoria}</span>
-                <h4>{noticia.titulo}</h4>
-                <p>{noticia.descricao}</p>
-                <span class="em-breve">Em breve</span>
-              </div>
-            </>
-          )}
+          <img src={noticia.imagem} alt={noticia.alt} width="480" height="300" loading="lazy" />
+          <div class="corpo-noticia">
+            <span class="categoria">{noticia.categoria}</span>
+            <h4>{noticia.titulo}</h4>
+            <p>{noticia.descricao}</p>
+            {noticia.hashtags && <p class="hashtags-noticia">{noticia.hashtags}</p>}
+            {noticia.href && <a class="link-noticia" href={noticia.href}>Leia a notícia completa <span aria-hidden="true">→</span></a>}
+            {noticia.emBreve && <span class="em-breve">Em breve</span>}
+          </div>
         </article>
       ))}
     </div>
@@ -206,7 +200,14 @@ const noticias = [
     <div class="grade">
       {linhasPesquisa.map((linha) => <CartaoLinhaPesquisa linha={linha} />)}
     </div>
-    <p class="link-projetos"><a href="https://github.com/neurocomp-nutes">Conheça nossos projetos no GitHub →</a></p>
+    <p class="link-projetos">
+      <a class="botao-github" href="https://github.com/neurocomp-nutes">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.7.3 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z" />
+        </svg>
+        <span>Conheça nossos projetos no GitHub</span>
+      </a>
+    </p>
   </Secao>
 
   <!-- PUBLICAÇÕES -->
@@ -453,21 +454,25 @@ const noticias = [
     /* Centraliza o conjunto de logo, textos e botões. */
     display: grid;
     place-items: center;
-    min-height: 620px;
-    padding: 64px 24px;
+    min-height: clamp(500px, 62vh, 560px);
+    padding: 48px 24px;
     text-align: center;
 
-    /* A primeira camada fica sobre a segunda: escurecimento sobre a foto. */
+    /* Clareia a foto com um véu sutil, preservando o contraste do conteúdo. */
     background-image:
       linear-gradient(
-        rgb(12 29 45 / 72%),
-        rgb(12 29 45 / 82%)
+        rgb(255 255 255 / 8%),
+        rgb(255 255 255 / 8%)
+      ),
+      linear-gradient(
+        rgb(12 29 45 / 64%),
+        rgb(12 29 45 / 64%)
       ),
       url('/imgs/fachada_nutes.png');
 
     /* Preenche a capa sem deformar a fotografia. */
     background-size: cover;
-    background-position: center;
+    background-position: center 48%;
     background-repeat: no-repeat;
   }
 
@@ -483,7 +488,7 @@ const noticias = [
 
   /* A logo mantém suas proporções originais. */
   .apresentacao .logo-capa {
-    width: clamp(160px, 22vw, 240px);
+    width: clamp(150px, 18vw, 200px);
     height: auto;
   }
 
@@ -513,9 +518,12 @@ const noticias = [
   }
 
   .apresentacao .botao {
+    min-height: 44px;
+    padding: 8px 20px;
     background: #284e70;
     color: #fff;
     border: 1px solid #aec9df;
+    border-radius: 999px;
   }
 
   .apresentacao .botao:hover {
@@ -526,9 +534,38 @@ const noticias = [
     outline-color: #fff;
   }
 
-  .link-projetos { 
-    margin-top: 24px; margin-bottom: 0; 
+  .link-projetos {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    max-width: none;
+    margin-top: 24px;
+    margin-bottom: 0;
   }
+  .botao-github {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 11px 18px;
+    border: 1px solid var(--faixa-navegacao);
+    border-radius: 12px;
+    background: var(--faixa-navegacao);
+    color: var(--texto-rodape);
+    text-decoration: none;
+    box-shadow: 0 2px 6px var(--sombra-cartao);
+    transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  }
+  .botao-github:hover {
+    transform: translateY(-2px);
+    border-color: var(--botao-hover);
+    background: var(--botao-hover);
+    color: var(--texto-rodape);
+    box-shadow: 0 5px 12px var(--sombra-cartao);
+  }
+  .botao-github svg { width: 22px; height: 22px; flex: 0 0 auto; fill: currentColor; }
+  .botao-github:focus-visible { outline-offset: 4px; }
 
   /* <-------------------NOTÍCIAS E CARROSSÉIS-------------------> */
   .destaques { margin: 8px 0 40px; }
@@ -576,14 +613,14 @@ const noticias = [
   .indicador[aria-current="true"] { width: 25px; border-radius: 8px; background: var(--verde); }
   .cabecalho-noticias { margin-bottom: 18px; }
   .viewport-noticias { gap: 20px; padding: 2px 2px 8px; }
-  .cartao-noticia { flex: 0 0 calc((100% - 40px) / 3); min-width: 0; overflow: hidden; scroll-snap-align: start; border: 1px solid var(--borda); border-radius: 12px; background: var(--superficie); }
-  .cartao-noticia > img, .link-cartao-noticia > img { display: block; width: 100%; aspect-ratio: 8 / 5; object-fit: cover; }
-  .link-cartao-noticia { display: block; height: 100%; color: inherit; text-decoration: none; }
-  .link-cartao-noticia:hover h4 { color: var(--verde); }
-  .link-cartao-noticia:focus-visible { outline: 3px solid var(--azul); outline-offset: -3px; }
+  .cartao-noticia { position: relative; flex: 0 0 calc((100% - 40px) / 3); min-width: 0; overflow: hidden; scroll-snap-align: start; border: 1px solid var(--borda); border-radius: 12px; background: var(--superficie); }
+  .cartao-noticia > img { display: block; width: 100%; aspect-ratio: 8 / 5; object-fit: cover; }
   .corpo-noticia { display: flex; min-height: 210px; flex-direction: column; align-items: flex-start; padding: 20px; }
   .corpo-noticia h4 { margin: 8px 0; color: var(--texto-titulo); font-size: 1.1rem; line-height: 1.3; }
   .corpo-noticia p { font-size: 0.9rem; }
+  .hashtags-noticia { margin-top: 12px !important; color: var(--verde) !important; font-size: 0.8rem !important; overflow-wrap: anywhere; }
+  .link-noticia { position: static; z-index: 1; display: inline-block; margin-top: auto; padding-block: 8px; color: var(--verde); font-size: 0.85rem; font-weight: 700; text-underline-offset: 4px; }
+  .link-noticia::after { position: absolute; inset: 0; content: ''; cursor: pointer; }
   .em-breve { margin-top: auto; padding-top: 16px; color: var(--verde); font-size: 0.8rem; font-weight: 700; }
   .dica-carrossel { margin: 12px 0 0; color: var(--texto-secundario); font-size: 0.82rem; text-align: right; }
 
@@ -593,8 +630,8 @@ const noticias = [
   }
   @media (max-width: 700px) {
     /* Reduz os espaços da capa em telas pequenas. */
-    .apresentacao { min-height: 520px; padding: 40px 20px;}
-    .conteudo-capa {gap: 16px;}
+    .apresentacao { min-height: 460px; padding: 36px 20px; }
+    .conteudo-capa { gap: 16px; }
     
     .slide-destaque { grid-template-columns: 1fr; }
     .slide-destaque > img { min-height: 0; aspect-ratio: 3 / 2; }
@@ -605,5 +642,9 @@ const noticias = [
     .cabecalho-carrossel { align-items: center; }
     .cartao-noticia { flex-basis: 100%; }
     .dica-carrossel { text-align: left; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .botao-github { transition: none; }
+    .botao-github:hover { transform: none; }
   }
 </style>

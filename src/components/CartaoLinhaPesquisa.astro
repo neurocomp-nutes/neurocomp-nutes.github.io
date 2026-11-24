@@ -12,7 +12,6 @@ const { linha } = Astro.props;
     <p>{linha.resumo}</p>
     <ul>{linha.temas.map((tema) => <li>{tema}</li>)}</ul>
     <span class="conhecer">Conheça a linha <span aria-hidden="true">↗</span></span>
-    <small>Abre em nova aba</small>
   </div>
 </a>
 <style>
@@ -27,7 +26,6 @@ const { linha } = Astro.props;
   .etiqueta { font-size: .75rem; margin-bottom: 8px; }
   ul { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0 0 24px; list-style: none; }
   li { font-size: .8rem; padding: 4px 10px; background: var(--superficie-suave); border-radius: 20px; }
-  .conhecer { color: var(--link); font-weight: 700; margin-top: auto; }
-  small { color: var(--texto-secundario); margin-top: 4px; }
+  .conhecer { align-self: flex-start; margin-top: auto; padding-block: 4px 8px; color: var(--link); font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
   @media (prefers-reduced-motion: reduce) { .cartao-linha { transition: none; } }
 </style>
