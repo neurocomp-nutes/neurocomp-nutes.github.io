@@ -51,10 +51,9 @@ const { sublinha, id, numero } = Astro.props;
   )}
 
   <figure class="overview">
-    <img src={sublinha.overview.src} alt={sublinha.overview.alt} width="1200" height="675" loading="lazy" decoding="async" />
-    <figcaption>
-      <a href={sublinha.overview.src} target="_blank" rel="noopener noreferrer">Ver em tamanho original</a>
-    </figcaption>
+    <a href={sublinha.overview.src} target="_blank" rel="noopener noreferrer" aria-label={`Abrir imagem original: ${sublinha.titulo}`}>
+      <img src={sublinha.overview.src} alt={sublinha.overview.alt} width="1536" height="1024" loading="lazy" decoding="async" />
+    </a>
   </figure>
 
   {sublinha.visualizacoes && sublinha.visualizacoes.length > 0 && (
@@ -76,8 +75,8 @@ const { sublinha, id, numero } = Astro.props;
   .blocos-tematicos article { padding-top: 12px; border-top: 2px solid var(--verde); }
   .blocos-tematicos h4 { margin-top: 8px; }
   .overview { margin: 28px 0; }
-  .overview img { display: block; width: 100%; max-height: 620px; aspect-ratio: 16 / 9; object-fit: contain; border-radius: 10px; background: var(--superficie-suave); }
-  .overview figcaption { margin-top: 8px; text-align: right; }
+  .overview img { display: block; width: 100%; max-height: 620px; height: auto; object-fit: contain; border-radius: 10px; background: var(--superficie-suave); }
+  .overview a:focus-visible { display: block; border-radius: 10px; outline: 3px solid var(--azul); outline-offset: 3px; }
   @media (max-width: 750px) {
     .bloco-sublinha { padding: 20px; }
     .blocos-tematicos { grid-template-columns: 1fr; }
