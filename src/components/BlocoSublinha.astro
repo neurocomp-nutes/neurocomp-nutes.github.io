@@ -1,0 +1,85 @@
+---
+import Galeria from './Galeria.astro';
+import type { Sublinha } from '../data/linhasPesquisa';
+
+interface Props {
+  sublinha: Sublinha;
+  id: string;
+  numero: number;
+}
+
+const { sublinha, id, numero } = Astro.props;
+---
+
+<article class="bloco-sublinha" aria-labelledby={`${id}-titulo`}>
+  <p class="etiqueta">Sublinha {numero}</p>
+  <h3 id={`${id}-titulo`}>{sublinha.titulo}</h3>
+  <p class="foco">{sublinha.foco}</p>
+
+  {sublinha.objetivo && (
+    <div>
+      <h4>Objetivo</h4>
+      <p>{sublinha.objetivo}</p>
+    </div>
+  )}
+
+  {sublinha.importancia && (
+    <div>
+      <h4>Por que isso importa</h4>
+      {sublinha.importancia.split('\n\n').map((paragrafo) => <p>{paragrafo}</p>)}
+    </div>
+  )}
+
+  {sublinha.perguntas && sublinha.perguntas.length > 0 && (
+    <div>
+      <h4>Perguntas de pesquisa</h4>
+      <ol class="perguntas">
+        {sublinha.perguntas.map((pergunta) => <li>{pergunta}</li>)}
+      </ol>
+    </div>
+  )}
+
+  {sublinha.blocos && sublinha.blocos.length > 0 && (
+    <div class="blocos-tematicos">
+      {sublinha.blocos.map((bloco) => (
+        <article>
+          <h4>{bloco.titulo}</h4>
+          <p>{bloco.descricao}</p>
+        </article>
+      ))}
+    </div>
+  )}
+
+  <figure class="overview">
+    <img src={sublinha.overview.src} alt={sublinha.overview.alt} width="1200" height="675" loading="lazy" decoding="async" />
+    <figcaption>
+      <a href={sublinha.overview.src} target="_blank" rel="noopener noreferrer">Ver em tamanho original</a>
+    </figcaption>
+  </figure>
+
+  {sublinha.visualizacoes && sublinha.visualizacoes.length > 0 && (
+    <Galeria titulo="Visualizações" itens={sublinha.visualizacoes} variante="gif" />
+  )}
+</article>
+
+<style>
+  .bloco-sublinha { padding: 28px; border: 1px solid var(--borda); border-radius: 16px; background: var(--superficie); }
+  .bloco-sublinha + .bloco-sublinha { margin-top: 28px; }
+  .etiqueta { margin: 0 0 8px; color: var(--verde); font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  h3 { margin: 0 0 16px; color: var(--texto-titulo); font-size: clamp(1.35rem, 3vw, 1.8rem); }
+  h4 { margin: 24px 0 8px; color: var(--texto-titulo); font-size: 1.05rem; }
+  p { line-height: 1.7; }
+  .foco { font-size: 1.05rem; }
+  .perguntas { display: grid; gap: 12px; padding-left: 24px; }
+  .perguntas li { padding-left: 4px; line-height: 1.65; }
+  .blocos-tematicos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .blocos-tematicos article { padding-top: 12px; border-top: 2px solid var(--verde); }
+  .blocos-tematicos h4 { margin-top: 8px; }
+  .overview { margin: 28px 0; }
+  .overview img { display: block; width: 100%; max-height: 620px; aspect-ratio: 16 / 9; object-fit: contain; border-radius: 10px; background: var(--superficie-suave); }
+  .overview figcaption { margin-top: 8px; text-align: right; }
+  @media (max-width: 750px) {
+    .bloco-sublinha { padding: 20px; }
+    .blocos-tematicos { grid-template-columns: 1fr; }
+  }
+</style>

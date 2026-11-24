@@ -1,0 +1,42 @@
+---
+import type { Midia } from '../data/linhasPesquisa';
+
+interface Props {
+  itens: Midia[];
+  titulo?: string;
+  variante?: 'foto' | 'gif';
+}
+
+const { itens, titulo, variante = 'foto' } = Astro.props;
+---
+
+<div class:list={['galeria', `galeria-${variante}`]}>
+  {titulo && <h3>{titulo}</h3>}
+  <div class="itens-galeria">
+    {itens.map((item) => (
+      <figure>
+        <img
+          src={item.src}
+          alt={item.alt}
+          style={{ objectPosition: item.posicao ?? 'center 35%' }}
+          width="640"
+          height="640"
+          loading="lazy"
+          decoding="async"
+        />
+        <figcaption>{item.legenda}</figcaption>
+      </figure>
+    ))}
+  </div>
+</div>
+
+<style>
+  .galeria h3 { margin-bottom: 20px; }
+  .itens-galeria { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  figure { min-width: 0; margin: 0; }
+  figure img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 8px; box-shadow: 0 3px 10px rgb(20 35 50 / 20%); }
+  figcaption { padding-top: 8px; color: var(--texto-secundario); font-size: .82rem; line-height: 1.5; }
+  @media (max-width: 650px) {
+    .itens-galeria { grid-template-columns: 1fr; }
+  }
+</style>

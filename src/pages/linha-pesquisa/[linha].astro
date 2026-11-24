@@ -1,23 +1,47 @@
 ---
 // <-------------------ROTAS E DADOS------------------->
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import LayoutPrincipal from '../../layouts/LayoutPrincipal.astro';
 import Secao from '../../components/Secao.astro';
 import CartaoMembro from '../../components/CartaoMembro.astro';
+import Galeria from '../../components/Galeria.astro';
+import BlocoSublinha from '../../components/BlocoSublinha.astro';
 import { linhasPesquisa, type LinhaPesquisa } from '../../data/linhasPesquisa';
 import { membros } from '../../data/membros';
+
 export function getStaticPaths() {
   return linhasPesquisa.map((linha) => ({ params: { linha: linha.slug }, props: { linha } }));
 }
+
 interface Props { linha: LinhaPesquisa }
 const { linha } = Astro.props;
+
 // Interrompe o build em caso de id inválido, evitando omitir um integrante silenciosamente.
 const equipe = linha.membros.map((integrante) => {
   const membro = membros.find((pessoa) => pessoa.id === integrante.id);
   if (!membro) throw new Error(`Membro não encontrado na linha ${linha.slug}: ${integrante.id}`);
   return { membro, vinculo: integrante.vinculo, funcao: integrante.funcao };
 });
-const secoes = [ ['apresentacao', 'Apresentação'], ['pesquisa', 'Pesquisa'], ['extensao', 'Extensão'], ['instrumentos', 'Instrumentos'], ['equipe', 'Equipe'], ['contato', 'Contato'] ];
+
+const caminhoSlides = resolve(process.cwd(), 'public/docs/linhas_de_pesquisa/memoria/cidade_madura_slides.pdf');
+const exibeSlides = linha.slug === 'memoria' && Boolean(linha.projetoExtensao) && existsSync(caminhoSlides);
+const temObjetivo = Boolean(linha.objetivo || linha.perguntas?.length || linha.nomeCompleto);
+const temPublico = Boolean(linha.publico || linha.locais?.length || linha.parceiros?.length);
+const temAtividades = Boolean(linha.atividades?.length || linha.situacaoAtual);
+
+const secoes = [
+  { id: 'apresentacao', nome: 'Apresentação', disponivel: Boolean(linha.apresentacao) },
+  { id: 'objetivo', nome: 'Objetivo e perguntas', disponivel: temObjetivo },
+  { id: 'sublinhas', nome: 'Sublinhas', disponivel: Boolean(linha.sublinhas?.length) },
+  { id: 'publico', nome: 'Público e locais', disponivel: temPublico },
+  { id: 'atividades', nome: 'Atividades e situação atual', disponivel: temAtividades },
+  { id: 'extensao', nome: 'Extensão', disponivel: Boolean(linha.extensao || linha.projetoExtensao) },
+  { id: 'instrumentos', nome: 'Instrumentos', disponivel: Boolean(linha.instrumentos.length) },
+  { id: 'equipe', nome: 'Equipe', disponivel: Boolean(equipe.length || linha.colaboradores?.length) },
+].filter((secao) => secao.disponivel);
 ---
+
 <LayoutPrincipal titulo={`${linha.nome} | Linhas de pesquisa | NeuroComp`} descricao={linha.resumo}>
   {/* <-------------------CAPA E NAVEGAÇÃO LOCAL-------------------> */}
   <section id="inicio" class="capa-linha" aria-labelledby="nome-linha">
@@ -28,54 +52,171 @@ const secoes = [ ['apresentacao', 'Apresentação'], ['pesquisa', 'Pesquisa'], [
         <h1 id="nome-linha">{linha.nome}</h1>
         <p class="subtitulo">{linha.subtitulo}</p>
         <p>{linha.resumo}</p>
-        <a href="#equipe">Conheça a equipe ↓</a>
+        {equipe.length > 0 && <a href="#equipe">Conheça a equipe ↓</a>}
       </div>
       <div class="logo-linha"><img src={linha.logo} alt={`Logo da linha ${linha.nome}`} width="1440" height="1100" /></div>
     </div>
   </section>
+
   <nav class="atalhos" aria-label={`Seções da linha ${linha.nome}`}>
-    {secoes.map(([id, nome]) => <a href={`#${id}`}>{nome}</a>)}
+    {secoes.map(({ id, nome }) => <a href={`#${id}`}>{nome}</a>)}
   </nav>
-  {/* <-------------------APRESENTAÇÃO, PESQUISA E EXTENSÃO-------------------> */}
-  <Secao id="apresentacao" titulo="Conheça a linha" etiqueta="Apresentação">
-    <p>{linha.apresentacao}</p>
-  </Secao>
-  <Secao id="pesquisa" titulo="O que investigamos" etiqueta="Pesquisa">
-    <div class="eixos">{linha.pesquisas.map((eixo, indice) => (
-      <article><span class="numero" aria-hidden="true">0{indice + 1}</span><h3>{eixo.titulo}</h3><p>{eixo.descricao}</p></article>
-    ))}</div>
-  </Secao>
-  <Secao id="extensao" titulo="Ciência junto à comunidade" etiqueta="Extensão">
-    <p>{linha.extensao}</p>
-    <a href="#contato">Fale com o NeuroComp sobre esta linha →</a>
-  </Secao>
-  {/* <-------------------RECURSOS UTILIZADOS-------------------> */}
-  <Secao id="instrumentos" titulo="Equipamentos e instrumentos" etiqueta="Como estudamos">
-    <p>Avaliações, tecnologias e medidas que fazem parte do trabalho da linha.</p>
-    <div class="instrumentos">{linha.instrumentos.map((item) => (
-      <article class="instrumento">
-        <figure>
-          <img src={`/imgs/linhas_de_pesquisa/instrumentos/${item.imagem}`} alt={item.credito ? item.nome : `Ilustração conceitual: ${item.nome}`} width="400" height="270" loading="lazy" />
-          <figcaption>
-            {item.credito && item.fonte ? <a href={item.fonte} target="_blank" rel="noopener noreferrer">{item.credito} ↗</a> : item.credito ?? 'Ilustração conceitual'}
-          </figcaption>
-        </figure>
-        <div class="corpo-instrumento">
-          <p class="etiqueta">{item.categoria}</p><h3>{item.nome}</h3><p>{item.descricao}</p>
-          {item.modelo && <p><strong>Modelo:</strong> {item.modelo}</p>}
-          {item.versao && <p><strong>Versão:</strong> {item.versao}</p>}
-          {item.referencia && <p class="referencia">{item.referencia}</p>}
-          {item.fonte && !item.credito && <a class="fonte" href={item.fonte} target="_blank" rel="noopener noreferrer">Saiba mais na fonte ↗</a>}
+
+  {/* <-------------------APRESENTAÇÃO E OBJETIVOS-------------------> */}
+  {linha.apresentacao && (
+    <Secao id="apresentacao" titulo="Conheça a linha" etiqueta="Apresentação">
+      <p>{linha.apresentacao}</p>
+    </Secao>
+  )}
+
+  {temObjetivo && (
+    <Secao id="objetivo" titulo="Objetivo e perguntas de pesquisa" etiqueta="Objetivo">
+      {linha.nomeCompleto && <p class="nome-completo">Linha de pesquisa: {linha.nomeCompleto}</p>}
+      {linha.objetivo && <p>{linha.objetivo}</p>}
+      {linha.perguntas && linha.perguntas.length > 0 && (
+        <ol class="perguntas-linha">
+          {linha.perguntas.map((pergunta) => <li>{pergunta}</li>)}
+        </ol>
+      )}
+    </Secao>
+  )}
+
+  {linha.sublinhas && linha.sublinhas.length > 0 && (
+    <Secao id="sublinhas" titulo="Sublinhas de pesquisa" etiqueta="Frentes de investigação">
+      {linha.sublinhas.map((sublinha, indice) => (
+        <BlocoSublinha id={`sublinha-${indice + 1}`} numero={indice + 1} sublinha={sublinha} />
+      ))}
+    </Secao>
+  )}
+
+  {/* <-------------------PÚBLICO, LOCAIS E ATIVIDADES-------------------> */}
+  {temPublico && (
+    <Secao id="publico" titulo="Público e locais de atuação" etiqueta="Comunidade">
+      {linha.publico && <p>{linha.publico}</p>}
+      {linha.locais && linha.locais.length > 0 && (
+        <div>
+          <h3>Locais</h3>
+          <ul>{linha.locais.map((local) => <li>{local}</li>)}</ul>
         </div>
-      </article>
-    ))}</div>
-  </Secao>
-  {/* <-------------------EQUIPE E CONTATO COMPARTILHADO-------------------> */}
-  <Secao id="equipe" titulo={`Quem faz a linha ${linha.nome}`} etiqueta="Equipe">
-    <div class="equipe-linha">{equipe.map(({ membro, vinculo, funcao }) => <CartaoMembro membro={membro} vinculo={vinculo} funcao={funcao} nivelTitulo="h3" />)}</div>
-  </Secao>
-  <!-- O contato institucional aparece uma única vez, no rodapé do layout. -->
+      )}
+      {linha.parceiros && linha.parceiros.length > 0 && (
+        <div>
+          <h3>Instituições e parceiros</h3>
+          <ul>{linha.parceiros.map((parceiro) => <li>{parceiro}</li>)}</ul>
+        </div>
+      )}
+    </Secao>
+  )}
+
+  {temAtividades && (
+    <Secao id="atividades" titulo="Atividades e situação atual" etiqueta="Acompanhamento">
+      {linha.atividades && linha.atividades.length > 0 && (
+        <ol class="atividades">{linha.atividades.map((atividade) => <li>{atividade}</li>)}</ol>
+      )}
+      {linha.situacaoAtual && (
+        <div class="situacao-atual">
+          <h3>Situação atual</h3>
+          <p>{linha.situacaoAtual}</p>
+        </div>
+      )}
+    </Secao>
+  )}
+
+  {/* <-------------------EXTENSÃO E COMUNIDADE-------------------> */}
+  {(linha.extensao || linha.projetoExtensao) && (
+    <Secao id="extensao" titulo="Ciência junto à comunidade" etiqueta="Extensão">
+      {linha.projetoExtensao && (
+        <article class="projeto-extensao">
+          <header>
+            <h3>{linha.projetoExtensao.titulo}</h3>
+            <p class="data-projeto">{linha.projetoExtensao.data}</p>
+          </header>
+          <p>{linha.projetoExtensao.resumo}</p>
+
+          <h4>Objetivos</h4>
+          <ul>{linha.projetoExtensao.objetivos.map((objetivo) => <li>{objetivo}</li>)}</ul>
+
+          <h4>Como funciona a coleta</h4>
+          <ol>{linha.projetoExtensao.etapas.map((etapa) => <li>{etapa}</li>)}</ol>
+          <p>{linha.projetoExtensao.detalheColeta}</p>
+
+          <h4>Contribuições para as pessoas idosas e para o condomínio</h4>
+          <ul>{linha.projetoExtensao.contribuicoes.map((contribuicao) => <li>{contribuicao}</li>)}</ul>
+
+          <h4>Resultados esperados</h4>
+          <ul>{linha.projetoExtensao.resultadosEsperados.map((resultado) => <li>{resultado}</li>)}</ul>
+          <p>{linha.projetoExtensao.fechamento}</p>
+
+          <Galeria titulo="Fotos da coleta" itens={linha.projetoExtensao.galeria} />
+
+          {exibeSlides && (
+            <div class="slides-projeto">
+              <h4>Slides do projeto</h4>
+              <object data="/docs/linhas_de_pesquisa/memoria/cidade_madura_slides.pdf" type="application/pdf" aria-label="Slides do projeto Cidade Madura">
+                <p>Não foi possível exibir o PDF neste navegador. <a href="/docs/linhas_de_pesquisa/memoria/cidade_madura_slides.pdf">Baixar slides (PDF)</a></p>
+              </object>
+              <a class="baixar-slides" href="/docs/linhas_de_pesquisa/memoria/cidade_madura_slides.pdf">Baixar slides (PDF)</a>
+            </div>
+          )}
+        </article>
+      )}
+      {linha.extensao && <p class="texto-extensao">{linha.extensao}</p>}
+      <a href="#contato">Fale com o NeuroComp sobre esta linha →</a>
+    </Secao>
+  )}
+
+  {/* <-------------------RECURSOS UTILIZADOS-------------------> */}
+  {linha.instrumentos.length > 0 && (
+    <Secao id="instrumentos" titulo="Equipamentos e instrumentos" etiqueta="Como estudamos">
+      <p>Avaliações, tecnologias e medidas que fazem parte do trabalho da linha.</p>
+      <div class="instrumentos">{linha.instrumentos.map((item) => (
+        <article class="instrumento">
+          <figure>
+            <img src={`/imgs/linhas_de_pesquisa/instrumentos/${item.imagem}`} alt={item.credito ? item.nome : `Ilustração conceitual: ${item.nome}`} width="400" height="270" loading="lazy" />
+            <figcaption>
+              {item.credito && item.fonte ? <a href={item.fonte} target="_blank" rel="noopener noreferrer">{item.credito} ↗</a> : item.credito ?? 'Ilustração conceitual'}
+            </figcaption>
+          </figure>
+          <div class="corpo-instrumento">
+            <p class="etiqueta">{item.categoria}</p>
+            <h3>{item.nome}</h3>
+            <p>{item.descricao}</p>
+            {item.modelo && <p><strong>Modelo:</strong> {item.modelo}</p>}
+            {item.versao && <p><strong>Versão:</strong> {item.versao}</p>}
+            {item.referencia && <p class="referencia">{item.referencia}</p>}
+            {item.fonte && !item.credito && <a class="fonte" href={item.fonte} target="_blank" rel="noopener noreferrer">Saiba mais na fonte ↗</a>}
+          </div>
+        </article>
+      ))}</div>
+    </Secao>
+  )}
+
+  {/* <-------------------EQUIPE E COLABORADORES-------------------> */}
+  {(equipe.length > 0 || linha.colaboradores?.length) && (
+    <Secao id="equipe" titulo={`Quem faz a linha ${linha.nome}`} etiqueta="Equipe">
+      {equipe.length > 0 && (
+        <div class="equipe-linha">
+          {equipe.map(({ membro, vinculo, funcao }) => <CartaoMembro membro={membro} vinculo={vinculo} funcao={funcao} nivelTitulo="h3" />)}
+        </div>
+      )}
+      {linha.colaboradores && linha.colaboradores.length > 0 && (
+        <div class="colaboradores">
+          <h3>Coordenação geral e colaboradores</h3>
+          <dl>
+            {linha.colaboradores.map((colaborador) => (
+              <div>
+                <dt>{colaborador.nome}</dt>
+                <dd><strong>{colaborador.vinculo}</strong><br />{colaborador.funcao}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      )}
+    </Secao>
+  )}
+  <!-- O contato institucional aparece uma única vez no rodapé do layout. -->
 </LayoutPrincipal>
+
 <style>
   /* <-------------------CAPA E ATALHOS-------------------> */
   .capa-linha { margin-top: 32px; background: var(--superficie-suave); }
@@ -88,27 +229,47 @@ const secoes = [ ['apresentacao', 'Apresentação'], ['pesquisa', 'Pesquisa'], [
   .atalhos { display: flex; gap: 8px; flex-wrap: wrap; }
   .atalhos a { padding: 10px 16px; border: 1px solid var(--borda); border-radius: 24px; text-decoration: none; background: var(--superficie); }
   .atalhos a:hover { background: var(--superficie-suave); }
+
+  /* <-------------------CONTEÚDO DAS SEÇÕES-------------------> */
+  .nome-completo { color: var(--verde); font-weight: 700; }
+  .perguntas-linha, .atividades { display: grid; gap: 12px; padding-left: 24px; }
+  .perguntas-linha li, .atividades li { padding-left: 4px; line-height: 1.65; }
+  .situacao-atual, .slides-projeto, .colaboradores { margin-top: 28px; }
+  .situacao-atual { padding: 20px; border-left: 3px solid var(--verde); background: var(--superficie-suave); }
+  .situacao-atual h3, .colaboradores h3 { margin-top: 0; }
+  .projeto-extensao { display: grid; gap: 8px; }
+  .projeto-extensao header h3 { margin-bottom: 4px; color: var(--texto-titulo); font-size: clamp(1.4rem, 3vw, 1.9rem); }
+  .data-projeto { margin-top: 0; color: var(--texto-secundario); font-weight: 700; }
+  .projeto-extensao h4 { margin: 20px 0 4px; color: var(--texto-titulo); font-size: 1.05rem; }
+  .projeto-extensao li { margin-top: 8px; line-height: 1.65; }
+  .texto-extensao { margin-top: 28px; }
+  .slides-projeto object { display: block; width: 100%; height: min(75vh, 760px); border: 1px solid var(--borda); border-radius: 12px; }
+  .baixar-slides { display: inline-block; margin-top: 12px; }
+  .colaboradores dl { display: grid; gap: 18px; }
+  .colaboradores dl > div { padding: 16px 0; border-top: 1px solid var(--borda); }
+  .colaboradores dt { margin-bottom: 6px; color: var(--texto-titulo); font-weight: 700; }
+  .colaboradores dd { margin: 0; line-height: 1.6; }
+
   /* <-------------------GRADES E CARTÕES-------------------> */
-  .eixos, .instrumentos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
-  .eixos article { border-top: 2px solid var(--verde); padding-top: 20px; }
-  .numero { display: block; color: var(--verde); font-size: .9rem; font-weight: 700; margin-bottom: 12px; }
-  .eixos p, .instrumento p { font-size: 1rem; }
+  .instrumentos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
   .instrumento { border: 1px solid var(--borda); border-radius: 14px; overflow: hidden; min-width: 0; }
-  figure { margin: 0; background: #edf4fa; }
-  figure img { display: block; width: 100%; height: 190px; object-fit: contain; }
-  figcaption { padding: 8px 12px; font-size: .72rem; color: #506477; }
-  figcaption a { color: #284e70; }
+  .instrumento figure { margin: 0; background: #edf4fa; }
+  .instrumento figure img { display: block; width: 100%; height: 190px; object-fit: contain; }
+  .instrumento figcaption { padding: 8px 12px; font-size: .72rem; color: #506477; }
+  .instrumento figcaption a { color: #284e70; }
   .corpo-instrumento { padding: 20px; }
-  .corpo-instrumento .etiqueta { font-size: .72rem; margin-bottom: 8px; }
+  .corpo-instrumento .etiqueta { margin-bottom: 8px; font-size: .72rem; }
   .corpo-instrumento h3 { line-height: 1.4; }
+  .corpo-instrumento p { font-size: 1rem; }
   .corpo-instrumento p:last-child { margin-bottom: 0; }
   .fonte { font-size: .85rem; }
   .referencia { color: var(--texto-secundario); font-size: .8rem !important; }
   .equipe-linha { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 24px; align-items: start; }
+
   /* <-------------------ADAPTAÇÃO PARA TELAS MENORES-------------------> */
   @media (max-width: 900px) { .instrumentos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 650px) {
-    .capa-conteudo, .eixos, .instrumentos { grid-template-columns: 1fr; }
+    .capa-conteudo, .instrumentos { grid-template-columns: 1fr; }
     .logo-linha { max-width: 320px; justify-self: center; }
     .capa-conteudo { gap: 24px; }
     .atalhos a { font-size: .85rem; padding: 8px 12px; }
