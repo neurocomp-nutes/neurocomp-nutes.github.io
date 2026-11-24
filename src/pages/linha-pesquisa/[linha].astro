@@ -11,10 +11,10 @@ export function getStaticPaths() {
 interface Props { linha: LinhaPesquisa }
 const { linha } = Astro.props;
 // Interrompe o build em caso de id inválido, evitando omitir um integrante silenciosamente.
-const equipe = linha.membrosIds.map((id) => {
-  const membro = membros.find((pessoa) => pessoa.id === id);
-  if (!membro) throw new Error(`Membro não encontrado na linha ${linha.slug}: ${id}`);
-  return membro;
+const equipe = linha.membros.map((integrante) => {
+  const membro = membros.find((pessoa) => pessoa.id === integrante.id);
+  if (!membro) throw new Error(`Membro não encontrado na linha ${linha.slug}: ${integrante.id}`);
+  return { membro, vinculo: integrante.vinculo, funcao: integrante.funcao };
 });
 const secoes = [ ['apresentacao', 'Apresentação'], ['pesquisa', 'Pesquisa'], ['extensao', 'Extensão'], ['instrumentos', 'Instrumentos'], ['equipe', 'Equipe'], ['contato', 'Contato'] ];
 ---
@@ -56,10 +56,15 @@ const secoes = [ ['apresentacao', 'Apresentação'], ['pesquisa', 'Pesquisa'], [
       <article class="instrumento">
         <figure>
           <img src={`/imgs/linhas_de_pesquisa/instrumentos/${item.imagem}`} alt={item.credito ? item.nome : `Ilustração conceitual: ${item.nome}`} width="400" height="270" loading="lazy" />
-          <figcaption>{item.credito ? <a href={item.fonte} target="_blank" rel="noopener noreferrer">{item.credito} ↗</a> : 'Ilustração conceitual'}</figcaption>
+          <figcaption>
+            {item.credito && item.fonte ? <a href={item.fonte} target="_blank" rel="noopener noreferrer">{item.credito} ↗</a> : item.credito ?? 'Ilustração conceitual'}
+          </figcaption>
         </figure>
         <div class="corpo-instrumento">
           <p class="etiqueta">{item.categoria}</p><h3>{item.nome}</h3><p>{item.descricao}</p>
+          {item.modelo && <p><strong>Modelo:</strong> {item.modelo}</p>}
+          {item.versao && <p><strong>Versão:</strong> {item.versao}</p>}
+          {item.referencia && <p class="referencia">{item.referencia}</p>}
           {item.fonte && !item.credito && <a class="fonte" href={item.fonte} target="_blank" rel="noopener noreferrer">Saiba mais na fonte ↗</a>}
         </div>
       </article>
@@ -67,7 +72,7 @@ const secoes = [ ['apresentacao', 'Apresentação'], ['pesquisa', 'Pesquisa'], [
   </Secao>
   {/* <-------------------EQUIPE E CONTATO COMPARTILHADO-------------------> */}
   <Secao id="equipe" titulo={`Quem faz a linha ${linha.nome}`} etiqueta="Equipe">
-    <div class="equipe-linha">{equipe.map((membro) => <CartaoMembro membro={membro} nivelTitulo="h3" />)}</div>
+    <div class="equipe-linha">{equipe.map(({ membro, vinculo, funcao }) => <CartaoMembro membro={membro} vinculo={vinculo} funcao={funcao} nivelTitulo="h3" />)}</div>
   </Secao>
   <!-- O contato institucional aparece uma única vez, no rodapé do layout. -->
 </LayoutPrincipal>
@@ -98,6 +103,7 @@ const secoes = [ ['apresentacao', 'Apresentação'], ['pesquisa', 'Pesquisa'], [
   .corpo-instrumento h3 { line-height: 1.4; }
   .corpo-instrumento p:last-child { margin-bottom: 0; }
   .fonte { font-size: .85rem; }
+  .referencia { color: var(--texto-secundario); font-size: .8rem !important; }
   .equipe-linha { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 24px; align-items: start; }
   /* <-------------------ADAPTAÇÃO PARA TELAS MENORES-------------------> */
   @media (max-width: 900px) { .instrumentos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

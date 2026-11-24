@@ -87,7 +87,7 @@ export const membros: Membro[] = [
   },
   {
     id: 'sabrina-de-figueiredo-souto',
-    nome: 'Sabrina de Figueiredo Souto',
+    nome: 'Sabrina de Figueirêdo Souto',
     grupo: 'gerencia',
     interesses: [
       'Neurociência da Dor',
