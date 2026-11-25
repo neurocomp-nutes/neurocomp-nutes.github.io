@@ -130,7 +130,7 @@ const links = [
 </header>
 
 <script>
-  const mobileMenu = window.matchMedia('(max-width: 760px)');
+  const mobileMenu = window.matchMedia('(max-width: 900px)');
 
   document.querySelectorAll<HTMLDetailsElement>('.menu').forEach((menu) => {
     menu.open = !mobileMenu.matches;
@@ -338,7 +338,7 @@ const links = [
   }
   .filtros-marca { position: absolute; width: 0; height: 0; overflow: hidden; }
   */
-  @media (max-width: 760px) {
+  @media (max-width: 900px) {
     .marcas-interno {
       min-height: 0;
       flex-direction: column-reverse;

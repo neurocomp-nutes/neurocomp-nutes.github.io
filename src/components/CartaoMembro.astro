@@ -6,11 +6,13 @@ import type { Membro } from '../data/membros';
 interface Props {
   // O cartão exibe o perfil; a classificação em grupos é responsabilidade da página.
   membro: Omit<Membro, 'grupo'>;
+  vinculo?: string;
+  funcao?: string;
   // Humanos estão abaixo de uma subseção (h3); não humanos ficam direto na seção (h2).
   nivelTitulo?: 'h3' | 'h4';
 }
 
-const { membro, nivelTitulo = 'h4' } = Astro.props;
+const { membro, vinculo, funcao, nivelTitulo = 'h4' } = Astro.props;
 const Titulo = nivelTitulo;
 const TituloInteresses = nivelTitulo === 'h3' ? 'h4' : 'h5';
 const temContatos = membro.lattes || membro.github || membro.site || membro.email;
@@ -33,6 +35,8 @@ const tituloId = `membro-${membro.id}`;
 
   <div class="informacoes">
     <Titulo class="nome-membro" id={tituloId}>{membro.nome}</Titulo>
+    {vinculo && <p class="vinculo">{vinculo}</p>}
+    {funcao && <p class="funcao">{funcao}</p>}
 
     <!-- INTERESSES DE PESQUISA -->
     <TituloInteresses class="titulo-interesses">Interesses de pesquisa</TituloInteresses>
@@ -127,6 +131,8 @@ const tituloId = `membro-${membro.id}`;
 
   /* <-------------------TEXTOS E INTERESSES-------------------> */
   .nome-membro { margin: 0 0 24px; color: var(--texto-titulo); font-size: 1.5rem; }
+  .vinculo { margin: -16px 0 12px; color: var(--verde); font-size: .85rem; font-weight: 700; }
+  .funcao { margin: 0 0 20px; font-size: .92rem; }
   .titulo-interesses { margin: 0 0 12px; font-size: 1rem; }
   .interesses { margin: 0 0 24px; padding-left: 20px; }
   .interesses li + li { margin-top: 4px; }
