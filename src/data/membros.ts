@@ -67,7 +67,7 @@ export const membros: Membro[] = [
     foto: '/imgs/people/shara.jpeg',
     lattes: 'https://busca-cv-lattes.cnpq.br/curriculo/6451381073910604',
     email: 'shara.oliveira@aluno.uepb.edu.br',
-    github: 'https://github.com/SharaIsabel',
+    github: 'https://github.com/SharaIsabell',
   },
   {
     id: 'tiago-souto-rocha',
